@@ -2,13 +2,31 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>EditBook</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../assets/css/EditBook.css">
+    <link rel="stylesheet" href="../assets/css/LeftNavBorder.css">
 </head>
 <body>
     
     <section class="container">
-        <div class="left-border"></div>
+
+        <div class="left-NavBorder">
+            <div class="left-NavBorder_NavigationIcons">
+                <div class="NavigationButtonsColumn">
+                    <div class="NavigationButton">
+                        <button class="ViewBooksButton"></button>
+                    </div>
+                    <p class="NavigationButtonText">View Books</p>
+                    <div class="NavigationButton">
+                        <button class="AddBookButton"></button>
+                    </div>
+                    <p class="NavigationButtonText">Add New Book</p>
+                </div>
+            </div>
+        </div>
 
         <form class="EditBookForm">
             <h1 class="EditBookForm_Title">Edit Book</h1>
@@ -51,11 +69,7 @@
                                    id="EditBookForm_BookIdInput6" placeholder="BookId">
                         </label>
                     </div>
-
-                    <div class="row">
-                        <button class="EditBookForm_DeleteButton">Delete Book</button>
-                    </div>
-
+                    
                     <div class="row">
                         <button class="EditBookForm_SaveButton">Save Changes</button>
                         <button class="EditBookForm_CancelButton">Cancel Changes</button>
