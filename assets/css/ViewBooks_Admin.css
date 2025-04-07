@@ -37,13 +37,6 @@ button:hover{
     box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
 }
 
-.left-NavBorder{
-    background-color: #008A90;
-    border-radius: 15px;
-    width: 10rem;
-}
-
-
 .CardsContainer{
     display: flex;
     flex-direction: column;
@@ -73,20 +66,6 @@ button:hover{
     background-color: #393E46;
     border-radius: 15px;
     transition: transform 0.2s ease;
-}
-
-
-.EditBookButton {
-    background-image: url('../img/editIcon.png');
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    width: 50px;
-    height: 50px;
-    border-radius: 7px;
-    cursor: pointer;
-    margin-top: 5px;
-    margin-left: 25px;
 }
 
 
@@ -128,53 +107,4 @@ button:hover{
 
 .bookInfo{
     margin-left: 1rem;
-}
-
-
-.NavigationButtonsColumn{
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
-
-
-.left-NavBorder_NavigationIcons{
-    font-size: 1.2rem;
-}
-
-.AddBookButton{
-    background-image: url('../img/addNewBookIcon.png');
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    width: 75px;
-    height: 75px;
-    border-radius: 7px;
-    cursor: pointer;
-    border: none;
-}
-
-.ViewBooksButton{
-    background-image: url('../img/searchBookIcon.png');
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    width: 75px;
-    height: 75px;
-    border-radius: 7px;
-    cursor: pointer;
-    border: none;
-    margin-right: 3rem;
-}
-
-.NavigationButton{
-}
-
-
-
-.NavigationButtonText{
-    
 }

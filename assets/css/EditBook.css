@@ -3,25 +3,19 @@ body{
     font-family: 'Lato', sans-serif;
     background-color: #222831;
     color: white;
+    margin: 0;
+    padding: 0;
 }
 
 .container{
     display: flex;
     flex-direction: row;
-    height: 100vh;
-    gap: 0;
 }
 
 .EditBookForm{
     margin-left: 5rem;
     margin-right: 0;
     margin-top: 5rem;
-}
-
-.left-border{
-    background-color: #008A90;
-    border-radius: 15px;
-    width: 10rem;
 }
 
 .EditBookForm_Title{
