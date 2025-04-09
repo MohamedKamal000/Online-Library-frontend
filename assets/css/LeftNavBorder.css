@@ -1,8 +1,16 @@
+body {
+    font-family: 'Lato', sans-serif;
+   
+}
 
 .left-NavBorder{
     background-color: #008A90;
     border-radius: 15px;
     width: 10rem;
+    color:white;
+    font-size: 25px;
+    font-weight: 600;
+    text-align: center;
 }
 
 .NavigationButtonsColumn{
@@ -11,77 +19,43 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
+    gap: 1rem;
 }
 
-
-.left-NavBorder_NavigationIcons{
-    font-size: 1.2rem;
+.NavigationButtonsColumn a {
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
 }
 
-.AddBookButton{
-    background-image: url('../img/addNewBookIcon.png');
+.AddBookButton, .BorrowedBooksButton, .ViewBooksButton {
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
     width: 75px;
     height: 75px;
-    border-radius: 7px;
     cursor: pointer;
     border: none;
-    transition: all 0.3s ease-in-out;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+    background-color: transparent;
+    
 }
 
-.AddBookButton:hover{
+.AddBookButton:hover, .BorrowedBooksButton:hover, .ViewBooksButton:hover {
     transform: scale(1.05);
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
 }
 
-.BorrowedBooksButton{
-    background-image: url('../img/addNewBookIcon.png');
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    width: 75px;
-    height: 75px;
-    border-radius: 7px;
-    cursor: pointer;
-    border: none;
-    transition: all 0.3s ease-in-out;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1)
+.AddBookButton {
+    background-image: url('../img/icons/AddNewBook.png');
+    
 }
 
-.BorrowedBooksButton:hover{
-    transform: scale(1.05);
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+.BorrowedBooksButton {
+    background-image: url('../img/icons/BorrowedBooks.png');
 }
 
-
-.ViewBooksButton{
-    background-image: url('../img/searchBookIcon.png');
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    width: 75px;
-    height: 75px;
-    border-radius: 7px;
-    cursor: pointer;
-    border: none;
-    transition: all 0.3s ease-in-out;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1)
-}
-
-.ViewBooksButton:hover{
-    transform: scale(1.05);
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
-}
-
-.NavigationButton{
-}
-
-
-
-.NavigationButtonText{
+.ViewBooksButton {
+    background-image: url('../img/icons/ViewBooks.png');
 }
 
 

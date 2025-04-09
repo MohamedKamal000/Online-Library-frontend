@@ -29,12 +29,11 @@ body{
 button{
     cursor: pointer;
     transition: all 0.3s ease-in-out;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 button:hover{
     transform: scale(1.05);
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+    opacity: 0.8;
 }
 
 .CardsContainer{
@@ -96,8 +95,8 @@ button:hover{
 }
 
 .AdminViewBook{
-    margin-top: 2rem;
-    margin-left: 10rem;
+    margin-top: 4rem;
+    margin-left: 15rem;
 }
 
 .AdminViewBook_Title{

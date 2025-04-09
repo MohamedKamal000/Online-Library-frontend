@@ -5,19 +5,47 @@
     <title>ViewBooksAdmin</title>
     <link rel="stylesheet" href="../assets/css/ViewBooks_Admin.css">
     <link rel="stylesheet" href="../assets/css/LeftNavBorder.css">
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/navbar.css">
+    <link rel="stylesheet" href="/assets/css/footer.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
+    <nav class="navbar">
+        <div class="left-section">
+            <a href="/" class="navbar-brand">LMS</a>
+            <div class="search-container">
+                <input type="search" id="search" class="search-bar" placeholder="Search books...">
+            </div>
+        </div>
+        <div class="nav-buttons">
+            <a href="/pages/register.html" class="nav-button">Register</a>
+            <a href="/pages/login.html" class="nav-button">Login</a>
+        </div>
+    </nav>
     <section class="AdminViewBook_Container">
         
         <div class="left-NavBorder">
             <div class="left-NavBorder_NavigationIcons">
                 <div class="NavigationButtonsColumn">
                     <div class="NavigationButton">
-                        <button class="ViewBooksButton"></button>
+                        <a href="../pages/ViewBooks_Admin.html">
+                            <button class="ViewBooksButton"></button>
+                        </a>
                     </div>
                     <p class="NavigationButtonText">View Books</p>
                     <div class="NavigationButton">
+                        <a href="../pages/BorrowedBooksList.html">
+                            <button class="BorrowedBooksButton"></button>
+                        </a>
+                    </div>
+                    <p class="NavigationButtonText">Borrowed Books</p>
+                    <div class="NavigationButton">
+                        <a href="">
                         <button class="AddBookButton"></button>
+                        </a>
                     </div>
                     <p class="NavigationButtonText">Add New Book</p>
                 </div>
@@ -34,7 +62,7 @@
             <div class="CardsContainer">
                 <div class="row">
                     <div class="bookCard">
-                        <div class="bookImage" onclick="window.location.href='login.html'"></div>
+                        <div class="bookImage" onclick="window.location.href='ViewBookDetailsAdmin.html'"></div>
                         <div class="row">
                             <div class="bookInfo">
                                 <h3>Book Title</h3>
@@ -43,7 +71,7 @@
                         </div>
                     </div>
                     <div class="bookCard">
-                        <div class="bookImage" onclick="window.location.href='login.html'"></div>
+                        <div class="bookImage" onclick="window.location.href='ViewBookDetailsAdmin.html'"></div>
                         <div class="row">
                             <div class="bookInfo">
                                 <h3>Book Title</h3>
@@ -52,7 +80,7 @@
                         </div>
                     </div>
                     <div class="bookCard">
-                        <div class="bookImage" onclick="window.location.href='login.html'"></div>
+                        <div class="bookImage" onclick="window.location.href='ViewBookDetailsAdmin.html'"></div>
                         <div class="row">
                             <div class="bookInfo">
                                 <h3>Book Title</h3>
@@ -61,7 +89,7 @@
                         </div>
                     </div>
                     <div class="bookCard">
-                        <div class="bookImage" onclick="window.location.href='login.html'"></div>
+                        <div class="bookImage" onclick="window.location.href='ViewBookDetailsAdmin.html'"></div>
                         <div class="row">
                             <div class="bookInfo">
                                 <h3>Book Title</h3>
@@ -72,7 +100,7 @@
                 </div>
                 <div class="row">
                     <div class="bookCard">
-                        <div class="bookImage" onclick="window.location.href='login.html'"></div>
+                        <div class="bookImage" onclick="window.location.href='Book-details-for-user.html'"></div>
                         <div class="row">
                             <div class="bookInfo">
                                 <h3>Book Title</h3>
@@ -81,7 +109,7 @@
                         </div>
                     </div>
                     <div class="bookCard">
-                        <div class="bookImage" onclick="window.location.href='login.html'"></div>
+                        <div class="bookImage" onclick="window.location.href='Book-details-for-user.html'"></div>
                         <div class="row">
                             <div class="bookInfo">
                                 <h3>Book Title</h3>
@@ -90,7 +118,7 @@
                         </div>
                     </div>
                     <div class="bookCard">
-                        <div class="bookImage" onclick="window.location.href='login.html'"></div>
+                        <div class="bookImage" onclick="window.location.href='Book-details-for-user.html'"></div>
                         <div class="row">
                             <div class="bookInfo">
                                 <h3>Book Title</h3>
@@ -99,7 +127,7 @@
                         </div>
                     </div>
                     <div class="bookCard">
-                        <div class="bookImage" onclick="window.location.href='login.html'"></div>
+                        <div class="bookImage" onclick="window.location.href='Book-details-for-user.html'"></div>
                         <div class="row">
                             <div class="bookInfo">
                                 <h3>Book Title</h3>
@@ -117,7 +145,28 @@
         
         
     </section>
-
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">LMS</div>
+            <div class="footer-links">
+                <h3>Quick Links</h3>
+                <a href="">About Us</a>
+                <a href="">Contact</a>
+                <a href="">FAQ</a>
+                <a href="">Privacy Policy</a>
+            </div>
+            <div class="footer-social">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+            </div>
+        </div>
+        <div class="footer-divider"></div>
+        <div class="footer-bottom">
+            © 2025 LMS. All rights reserved.
+        </div>
+    </footer>
 
 </body>
 </html>
