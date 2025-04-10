@@ -4,7 +4,7 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    background-image: url('/assets/img/Welcome-BG.png');
+    background-image: url('../img/Welcome-BG.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
