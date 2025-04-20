@@ -13,8 +13,6 @@
     <link rel="stylesheet" href="../assets/css/footer.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="../assets/css/LeftNavBorder.css">
-
-
 </head>
 <body>
     <nav class="navbar">
@@ -35,7 +33,11 @@
             <a href="login.html" class="nav-button">Login</a>
         </div>
     </nav>
-
+    
+    <div id="resultMessage" >
+        <span id="resultMessageText">message Box</span>
+    </div>
+    
     <div class="left-NavBorder">
         <div class="left-NavBorder_NavigationIcons">
             <div class="NavigationButtonsColumn">
@@ -68,29 +70,30 @@
                 <div class="row">
                     <div class="input-group wide">
                         <label>Book Name</label>
-                        <input type="text">
+                        <input id="Add_title" class="Add_inputField" type="text">
                     </div>
                     <div class="input-group wide">
                         <label>Book ID</label>
-                        <input type="text">
+                        <input id="Add_ID" class="Add_inputField" type="text">
                     </div>
                 </div>
                 <div class="row">
                     <div class="input-group wide">
                         <label>Author</label>
-                        <input type="text">
+                        <input id="Add_Author" class="Add_inputField" type="text">
                     </div>
                     <div class="input-group wide">
                         <label>Category</label>
-                        <input type="text">
+                        <input id="Add_Category" class="Add_inputField" type="text">
                     </div>
                 </div>
                 <div class="input-group">
                     <label>Description</label>
-                    <input type="text">
+                    <input id="Add_Description" class="Add_inputField" type="text">
                 </div>
                 <div class="input-group">
                     <label>Cover Image</label>
+                    <span id="imageSelectionIndicator">No Image Selected</span>
                     <input type="file" id="coverImage" accept="image/*" style="display: none;">
                     <label for="coverImage" class="upload-btn">+ Select Image</label>
                 </div>
@@ -124,6 +127,6 @@
             © 2025 LMS. All rights reserved.
         </div>
     </footer>
-
+    <script type="module" src="../assets/js/AddBook.js"></script>
 </body>
 </html>

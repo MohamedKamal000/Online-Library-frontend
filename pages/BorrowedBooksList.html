@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="../assets/css/navbar.css">
     <link rel="stylesheet" href="../assets/css/footer.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/pagiationNumbers.css">
 </head>
 <body>
     <nav class="navbar">
@@ -60,50 +61,24 @@
         <div class="BorrowedBooksCardsContainer">
             <h1 class="BB_Cards_Title">Borrowed Books</h1>
             <div class="BB_Card_List">
+                <!-- Borrowed Cards Goes Here-->
+                <!-- Example on a Card 
                 <div class="BB_Card">
                     <div class="BB_CardDetails">
-                        <div class="BB_BookTitle">Book Title</div>
-                        <div>Author: Random Name</div>
-                        <div>Category: Random Category</div>
-                        <div>BookId : 1234</div>
+                        <div id = "Title" class="BB_BookTitle">Book Title</div>
+                        <div id = "Author" >Author: Random Name</div>
+                        <div id = "Category" >Category: Random Category</div>
+                        <div id = "BookId" >BookId : 1234</div>
                     </div>
                     <img class="BB_Card_BookImage" src="../assets/img/testImage.jpeg" alt="">
                 </div>
-                <div class="BB_Card">
-                    <div class="BB_CardDetails">
-                        <div class="BB_BookTitle">Book Title</div>
-                        <div>Author: Random Name</div>
-                        <div>Category: Random Category</div>
-                        <div>BookId : 1234</div>
-                    </div>
-                    <img class="BB_Card_BookImage" src="../assets/img/testImage.jpeg" alt="">
-                </div>
-                <div class="BB_Card">
-                    <div class="BB_CardDetails">
-                        <div class="BB_BookTitle">Book Title</div>
-                        <div>Author: Random Name</div>
-                        <div>Category: Random Category</div>
-                        <div>BookId : 1234</div>
-                    </div>
-                    <img class="BB_Card_BookImage" src="../assets/img/testImage.jpeg" alt="">
-                </div>
-                <div class="BB_Card">
-                    <div class="BB_CardDetails">
-                        <div class="BB_BookTitle">Book Title</div>
-                        <div>Author: Random Name</div>
-                        <div>Category: Random Category</div>
-                        <div>BookId : 1234</div>
-                    </div>
-                    <img class="BB_Card_BookImage" src="../assets/img/testImage.jpeg" alt="">
-                </div>
+                -->
+                
             </div>
             <div class="ButtonRow">
-                <button class="BookCards_ShowPreviousButton">Show Previous</button>
-                <button class="BookCards_ShowNextButton">Show Next</button>
+                <div class="pagination-numbers"></div>
             </div>
         </div>
-
-
     </section>
     <footer class="footer">
         <div class="footer-content">
@@ -127,5 +102,6 @@
             © 2025 LMS. All rights reserved.
         </div>
     </footer>
+<script src="../assets/js/BorrowedBooksList.js"></script>
 </body>
 </html>
