@@ -9,7 +9,7 @@ form.addEventListener('submit', function (e) {
 
     let users = JSON.parse(localStorage.getItem('users')) || [];
 
-    const loggedUser = users.find((user) => user.username === userName && user.password === password);
+    const loggedUser = users.find(user => user.email === userName && user.password === password);
     if (loggedUser) {
         alert('Logged in successfully!');
         window.location.href = 'ViewBooks.html';
