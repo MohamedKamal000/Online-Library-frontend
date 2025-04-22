@@ -36,10 +36,9 @@
   
       const user = { username, email, password, isAdmin };
   
-      // Load existing users
       let users = JSON.parse(localStorage.getItem('users')) || [];
   
-      // Check if email already exists
+      
       const existingUser = users.find(u => u.email === email);
       if (existingUser) {
         alert('Email already registered.');
