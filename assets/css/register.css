@@ -104,3 +104,16 @@ a:hover {
     color: #008a90;
     text-decoration: underline;
 }
+.error-message {
+    color: red;
+    font-size: 0.875em;
+    margin-top: 4px;
+    display: block;
+  }
+  .success-message {
+    color: green;
+    font-size: 1em;
+    margin-top: 10px;
+    text-align: center;
+    display: none;
+  }
