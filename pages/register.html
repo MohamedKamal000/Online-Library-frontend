@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="../assets/css/navbar.css">
     <link rel="stylesheet" href="../assets/css/footer.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/register.css"/> 
   </head>
   <body>
     <nav class="navbar">
@@ -35,7 +36,7 @@
     <div class="registration-container">
       <h1>Create Your Account</h1>
 
-      <form >
+      <form id ="registerForm" >
         <div class="form-group">
           <label for="username">Username</label>
           <input
@@ -44,16 +45,20 @@
             required
             placeholder="Enter username"
             autofocus
-            
+           
           />
           <span class="input-hint"
+          
             >4-20 characters,letters and numbers only</span
-          >
+          
+          >  
+           <span class="error-message" id="usernameError"></span>
         </div>
 
         <div class="form-group">
           <label for="email">Email Address</label>
           <input type="email" id="email" required placeholder="Enter email" />
+          <span class="error-message" id="emailError"></span>
         </div>
 
         <div class="form-group" >
@@ -65,6 +70,7 @@
             placeholder="Enter password"
           />
           <span class="input-hint">Minimum 8 characters</span>
+          <span class="error-message" id="passwordError"></span>
         </div>
 
         <div class="form-group">
@@ -75,6 +81,7 @@
             required
             placeholder="Confirm password"
           />
+          <span class="error-message" id="confirmPasswordError"></span>
         </div>
 
         <div class="checkbox-group">
@@ -83,13 +90,13 @@
         </div>
 
         <button type="submit">Register</button>
-
+        <div id="successMessage" class="success-message"></div>
         <div class="login-link">
-          Already have an account? <a href="login.html">Sign in</a>
+            Already have an account? <a href="login.html" >Sign in</a>
         </div>
       </form>
     </div>
-    </div>
+      <script src="../assets/js/register.js"></script>
     <footer class="footer">
       <div class="footer-content">
           <div class="footer-brand">LMS</div>
@@ -112,5 +119,6 @@
           © 2025 LMS. All rights reserved.
       </div>
   </footer>
+  </div>
   </body>
 </html>
