@@ -4,7 +4,7 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    background-image: url('/assets/img/login-bg.png');
+    background-image: url('../img/login-bg.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -18,7 +18,7 @@ body {
     align-items: center;
     width: 100%;
     padding: 2rem 0;  
-    min-height: calc(100vh - 100px);
+    min-height: calc(100vh - 70px);
 }
 
 .login-container {
@@ -89,4 +89,18 @@ opacity: 70%
     text-align: center;
     margin-top: 1rem;
     opacity: 0.8;
+}
+.login-link {
+    text-align: center;
+    margin-top: 15px;
+    color: #eeeeee;
+}
+a {
+    color: #00adb5;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #008a90;
+    text-decoration: underline;
 }

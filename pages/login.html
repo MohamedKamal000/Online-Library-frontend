@@ -9,8 +9,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/assets/css/navbar.css">
-    <link rel="stylesheet" href="/assets/css/footer.css">
+    <link rel="stylesheet" href="../assets/css/navbar.css">
+    <link rel="stylesheet" href="../assets/css/footer.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
@@ -18,7 +18,13 @@
         <div class="left-section">
             <a href="../index.html" class="navbar-brand">LMS</a>
             <div class="search-container">
+                <i class="fas fa-search search-icon"></i>
                 <input type="search" id="search" class="search-bar" placeholder="Search books...">
+                <select class="search-category">
+                    <option value="title">Title</option>
+                    <option value="author">Author</option>
+                    <option value="category">Category</option>
+                </select>
             </div>
         </div>
         <div class="nav-buttons">
@@ -39,6 +45,10 @@
                     <input type="password" id="password" name="password" required>
                 </div>
                 <button type="submit" class="login-button">Login</button>
+                <p id="errorMessage" style="display: none; color: red;">Wrong email or password. Please try again! </p>
+                <div class="login-link">
+                    Don't have an account? <a href="register.html">Sign Up</a>
+                  </div>
                 <p class="terms-text">By signing up, you agree to our Terms of Service and Privacy Policy</p>
             </form>
         </div>
