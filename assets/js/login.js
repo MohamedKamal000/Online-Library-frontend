@@ -1,17 +1,21 @@
 const form = document.querySelector("#loginForm");
+
+
+
 form.addEventListener('submit', function (e) {
     e.preventDefault();
 
-    const userName = document.getElementById('username').value.trim();
+    const email = document.getElementById('email').value.trim();
     const password = document.getElementById('password').value;
 
-    const user = {userName, password};
+    const tryingToLogin_user = {email, password};
 
     let users = JSON.parse(localStorage.getItem('users')) || [];
-
-    const loggedUser = users.find(user => user.email === userName && user.password === password);
+    const loggedUser = users.find((user) => user.email === tryingToLogin_user.email 
+        && user.password === tryingToLogin_user.password);
     if (loggedUser) {
         alert('Logged in successfully!');
+        localStorage.setItem("currentUser",JSON.stringify(tryingToLogin_user));
         window.location.href = 'ViewBooks.html';
     }else{
         const errorMessage = document.getElementById("errorMessage");
