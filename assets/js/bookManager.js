@@ -6,7 +6,7 @@ const dummyBooks = [
         author: "F. Scott Fitzgerald",
         description: "A story of decadence and excess.",
         category: "Classic",
-       imageUrl: "../assets/img/testImage.jpeg"
+        imageUrl: "../assets/img/testImage.jpeg"
     },
     {
         id: 2,
@@ -28,14 +28,14 @@ const dummyBooks = [
         author: "George Orwell",
         description: "A dystopian social science fiction.",
         category: "Science Fiction",
-       imageUrl: "../assets/img/testImage.jpeg"
+        imageUrl: "../assets/img/testImage.jpeg"
     }, {
         id: 2,
         title: "1984",
         author: "George Orwell",
         description: "A dystopian social science fiction.",
         category: "Science Fiction",
-       imageUrl: "../assets/img/testImage.jpeg"
+        imageUrl: "../assets/img/testImage.jpeg"
     }, {
         id: 2,
         title: "1984",
@@ -95,6 +95,11 @@ async function fetchBooks() {
     }
 }
 
+function getLoggedInUserRole() {
+   
+    return localStorage.getItem('userRole') || 'user';
+}
+
 function displayBooks(books) {
     const container = document.querySelector('.CardsContainer');
     const start = (currentPage - 1) * booksPerPage;
@@ -108,7 +113,7 @@ function displayBooks(books) {
         }
         html += `
             <div class="bookCard">
-                <div class="bookImage" onclick="window.location.href='ViewBookDetailsAdmin.html?id=${book.id}'" 
+                <div class="bookImage" onclick="navigateToBookDetails(${book.id})" 
                      style="background-image: url('${book.imageUrl}')"></div>
                 <div class="row">
                     <div class="bookInfo">
@@ -123,6 +128,12 @@ function displayBooks(books) {
     html += '<div class="pagination-numbers"></div>';
     container.innerHTML = html;
     updatePaginationButtons();
+}
+
+function navigateToBookDetails(bookId) {
+    const userRole = getLoggedInUserRole();
+    const page = userRole === 'admin' ? 'ViewBookDetailsAdmin.html' : 'Book-details-for-user.html';
+    window.location.href = `${page}?id=${bookId}`;
 }
 
 function updatePaginationButtons() {

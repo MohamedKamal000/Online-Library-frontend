@@ -118,3 +118,12 @@ button:hover{
 .bookInfo{
     margin-left: 1rem;
 }
+
+.no-results {
+    text-align: center;
+    padding: 20px;
+    font-size: 1.2em;
+    color: #666;
+    width: 100%;
+    margin-top: 20px;
+}

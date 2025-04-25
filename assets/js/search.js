@@ -1,15 +1,8 @@
-let books = []; 
-async function fetchBooks() {
-    try {
-       
-    } catch (error) {
-        console.error('Error fetching books:', error);
-    }
-}
-
 function searchBooks(query, category) {
+    if (!query) return dummyBooks;
+    
     query = query.toLowerCase().trim();
-    return books.filter(book => {
+    return dummyBooks.filter(book => {
         switch(category) {
             case 'title':
                 return book.title.toLowerCase().includes(query);
@@ -18,27 +11,58 @@ function searchBooks(query, category) {
             case 'category':
                 return book.category.toLowerCase().includes(query);
             default:
-                return false;
+                return book.title.toLowerCase().includes(query) || 
+                       book.author.toLowerCase().includes(query) || 
+                       book.category.toLowerCase().includes(query);
         }
     });
 }
 
+function handleSearch(query, category) {
+    const isViewBooksPage = window.location.pathname.includes('ViewBooks.html');
+    
+    if (isViewBooksPage) {
+        const filteredBooks = searchBooks(query, category);
+        if (filteredBooks.length === 0) {
+            const container = document.querySelector('.CardsContainer');
+            container.innerHTML = '<div class="no-results">No books found matching your search criteria</div>';
+        } else {
+            totalBooks = filteredBooks.length;
+            currentPage = 1; 
+            displayBooks(filteredBooks);
+        }
+    } else {
+        const searchParams = new URLSearchParams();
+        if (query) searchParams.set('query', query);
+        if (category) searchParams.set('category', category);
+        window.location.href = `ViewBooks.html?${searchParams.toString()}`;
+    }
+}
+
+let debounceTimer;
 const searchInput = document.getElementById('search');
 const searchCategory = document.querySelector('.search-category');
 
-let debounceTimer;
 searchInput.addEventListener('input', () => {
     clearTimeout(debounceTimer);
     debounceTimer = setTimeout(() => {
         const query = searchInput.value;
         const category = searchCategory.value;
-        const results = searchBooks(query, category);
-        displayResults(results);
+        handleSearch(query, category);
     }, 300);
 });
 
-function displayResults(results) {
-    console.log('Search results:', results);
-}
-
-document.addEventListener('DOMContentLoaded', fetchBooks);
+document.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const query = urlParams.get('query');
+    const category = urlParams.get('category') || 'title';
+    
+    if (query) {
+        searchInput.value = query;
+        searchCategory.value = category;
+        handleSearch(query, category);
+    } else {
+        totalBooks = dummyBooks.length;
+        displayBooks(dummyBooks); 
+    }
+});
