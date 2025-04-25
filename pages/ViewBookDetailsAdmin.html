@@ -43,7 +43,7 @@
    
     
     <main class="main-content">
-       <div class="left-NavBorder">
+        <div class="left-NavBorder">
             <div class="left-NavBorder_NavigationIcons">
                 <div class="NavigationButtonsColumn">
                     <div class="NavigationButton">
@@ -86,9 +86,13 @@
                 </div>
 
                 <div class="botton">
-                    <button class="button" style="background-color: #00CF76;">
-                        <img src="../assets/img/icons/AddNewBook.png" alt="Edit" class="button-icon">
-                        Borrow
+                    <button class="button" onclick="window.location.href='EditBook.html'" style="background-color: #00CF76;">
+                        <img src="../assets/img/icons/Edit.png" alt="Edit" class="button-icon">
+                        Edit
+                    </button>
+                    <button class="button" style="background-color: red;">
+                        <img src="../assets/img/icons/Delete.png" alt="Delete" class="button-icon">
+                        Delete
                     </button>
                 </div>
             </div>
@@ -98,9 +102,8 @@
                     <div class="right-image">
                         <img src="../assets/img/testImage.jpeg" alt="Book" style="border-radius: 10%;"> 
                     </div>
-                    <p class="text">Book Name</p>
+                    <h2 class="text">Book Name</h2>
                     <p class="book-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-
                 </div>
             </div>
         </div>

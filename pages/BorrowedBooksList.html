@@ -1,27 +1,20 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    
-    <title>
-        View book details for Admin. 
-    </title>
-
-    <link rel="stylesheet" href="../assets/css/bookDetails_style.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Borrowed Books</title>
+    <link rel="stylesheet" href="../assets/css/BorrowedBooksList.css">
+    <link rel="stylesheet" href="../assets/css/LeftNavBorder.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../assets/css/navbar.css">
     <link rel="stylesheet" href="../assets/css/footer.css">
-    <link rel="stylesheet" href="../assets/css/LeftNavBorder.css">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
+    <link rel="stylesheet" href="../assets/css/pagiationNumbers.css">
 </head>
-
-
-
-<body class="body-elements">
-
+<body>
     <nav class="navbar">
         <div class="left-section">
             <a href="../index.html" class="navbar-brand">LMS</a>
@@ -40,10 +33,8 @@
             <a href="login.html" class="nav-button">Login</a>
         </div>
     </nav>
-   
-    
-    <main class="main-content">
-       <div class="left-NavBorder">
+    <section class="BorrowedBooks_Container">
+        <div class="left-NavBorder">
             <div class="left-NavBorder_NavigationIcons">
                 <div class="NavigationButtonsColumn">
                     <div class="NavigationButton">
@@ -67,45 +58,28 @@
                 </div>
             </div>
         </div>
-        
-        <div class="content-wrapper">
-            <div class="details-section">
-                <div class="body-content">
-                    <img src="../assets/img/icons/BookID.png" alt="Book ID" class="body-images">
-                    <p class="body-text">Book ID</p>
-                </div>
-
-                <div class="body-content">
-                    <img src="../assets/img/icons/Author.png" alt="Author" class="body-images">
-                    <p class="body-text">Author</p>
-                </div>
-
-                <div class="body-content">
-                    <img src="../assets/img/icons/Category.png" alt="Category" class="body-images">
-                    <p class="body-text">Category</p>
-                </div>
-
-                <div class="botton">
-                    <button class="button" style="background-color: #00CF76;">
-                        <img src="../assets/img/icons/AddNewBook.png" alt="Edit" class="button-icon">
-                        Borrow
-                    </button>
-                </div>
-            </div>
-
-            <div class="image-section">
-                <div class="right-details">
-                    <div class="right-image">
-                        <img src="../assets/img/testImage.jpeg" alt="Book" style="border-radius: 10%;"> 
+        <div class="BorrowedBooksCardsContainer">
+            <h1 class="BB_Cards_Title">Borrowed Books</h1>
+            <div class="BB_Card_List">
+                <!-- Borrowed Cards Goes Here-->
+                <!-- Example on a Card 
+                <div class="BB_Card">
+                    <div class="BB_CardDetails">
+                        <div id = "Title" class="BB_BookTitle">Book Title</div>
+                        <div id = "Author" >Author: Random Name</div>
+                        <div id = "Category" >Category: Random Category</div>
+                        <div id = "BookId" >BookId : 1234</div>
                     </div>
-                    <p class="text">Book Name</p>
-                    <p class="book-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-
+                    <img class="BB_Card_BookImage" src="../assets/img/testImage.jpeg" alt="">
                 </div>
+                -->
+                
+            </div>
+            <div class="ButtonRow">
+                <div class="pagination-numbers"></div>
             </div>
         </div>
-    </main>
-    
+    </section>
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-brand">LMS</div>
@@ -128,8 +102,6 @@
             © 2025 LMS. All rights reserved.
         </div>
     </footer>
-   
-
+<script src="../assets/js/BorrowedBooksList.js"></script>
 </body>
-
 </html>
