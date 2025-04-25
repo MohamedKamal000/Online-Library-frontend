@@ -35,21 +35,19 @@ function handleSearch(query, category) {
         const searchParams = new URLSearchParams();
         if (query) searchParams.set('query', query);
         if (category) searchParams.set('category', category);
-        window.location.href = `ViewBooks.html?${searchParams.toString()}`;
+        window.location.href = `pages/ViewBooks.html?${searchParams.toString()}`;
     }
 }
 
-let debounceTimer;
 const searchInput = document.getElementById('search');
 const searchCategory = document.querySelector('.search-category');
 
-searchInput.addEventListener('input', () => {
-    clearTimeout(debounceTimer);
-    debounceTimer = setTimeout(() => {
+searchInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
         const query = searchInput.value;
         const category = searchCategory.value;
         handleSearch(query, category);
-    }, 300);
+    }
 });
 
 document.addEventListener('DOMContentLoaded', () => {

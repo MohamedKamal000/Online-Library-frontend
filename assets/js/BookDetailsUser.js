@@ -1,6 +1,3 @@
-
-
-
 // will do huge refactor to this when make backend
 // so we can decide if the book is available, already borrowed by the user, can borrow
 const bookId_param = new URLSearchParams(window.location.search).get("id");

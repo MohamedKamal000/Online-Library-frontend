@@ -114,3 +114,8 @@
     opacity: 1;
     text-decoration: none;
 }
+
+#logoutBtn:hover {
+    background-color: #ff4444;
+    color: white;
+}

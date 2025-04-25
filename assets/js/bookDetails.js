@@ -1,5 +1,5 @@
 async function getBookDetails(bookId) {
-    // In phase 3, replace this with actual API call
+    // will replace fot backend call in phase 3
     const books = await fetch('../assets/js/bookManager.js')
         .then(response => response.text())
         .then(text => {

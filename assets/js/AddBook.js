@@ -48,39 +48,42 @@ addImageInput.onchange = () => {
     imageSelectedText.textContent = "Image Selected ! :D";
 }
 
-function LoadDataFromInputFields(event){
+function LoadDataFromInputFields(event) {
     event.preventDefault();
     let result = TryParseData(inputElements);
     
-    if (result === undefined || !CheckNotEmpty(result) || !ChooseBookImage) {
-        console.log("Can't Pares Data check inputs");
-        resultMessage.style.backgroundColor = COLORS["Fail"];
-        resultMessageText.textContent = "Fail :(";
-    }
-    else{
-        resultMessage.style.backgroundColor = COLORS["Success"];
-        resultMessageText.textContent = "Success !";
+    if (!ChooseBookImage) {
+        showError("Please select a book cover image");
+        return;
     }
 
+    if (result === undefined) {
+        showError("Please check your inputs");
+        return;
+    }
+
+
+    showSuccess("Book added successfully!");
+}
+
+function showError(message) {
+    resultMessage.style.backgroundColor = COLORS["Fail"];
+    resultMessageText.textContent = message;
+    showMessage();
+}
+
+function showSuccess(message) {
+    resultMessage.style.backgroundColor = COLORS["Success"];
+    resultMessageText.textContent = message;
+    showMessage();
+}
+
+function showMessage() {
     resultMessage.style.top = "100px";
-
     setTimeout(() => {
         resultMessage.style.top = "-100px";
-    },5000);
-    
-    // make the call here for the backend, 
-    // also make sure to send the image idk how we would manipulate the image here
+    }, 5000);
 }
-
-function CheckNotEmpty(data){
-    for (let key in data){
-        if (!data[key] || data[key].trim() === ""){
-            return false;
-        }
-    }
-    return true;
-}
-
 
 async function MakeAddBookCall(bookDetails,bookImage){
     let request = new Request("url",{
