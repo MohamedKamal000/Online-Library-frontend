@@ -19,13 +19,13 @@ function showError(message) {
 async function loginUser(email, password) {
     try {
         // for when the API is ready (Phase 3)
-        const response = await fetch(`${API_URL}/login`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ email, password })
-        });
+        // const response = await fetch(`${API_URL}/login`, {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //     },
+        //     body: JSON.stringify({ email, password })
+        // });
         // ---- for testing only, will delete later
         if(email === "test@admin.com" && password === "test1234"){
             return { token: "dummyToken", role: "admin" };
