@@ -1,5 +1,3 @@
-
-
 window.onload = LoadUserBorrowedBooks;
 
 
@@ -138,6 +136,25 @@ function CreateCard(bookDetails){
     cardDetails.appendChild(author);
     cardDetails.appendChild(category);
     cardDetails.appendChild(bookId);
+
+    let unborrowBtn = document.createElement("button");
+    unborrowBtn.className = "unborrow-btn";
+    unborrowBtn.textContent = "Return Book";
+    unborrowBtn.onclick = async (e) => {
+        e.stopPropagation(); 
+        if (confirm("Are you sure you want to return this book?")) {
+            try {
+                await unborrowBook(bookDetails.id);
+                card.remove();
+                alert("Book returned successfully!");
+                await LoadUserBorrowedBooks();
+            } catch (error) {
+                alert("Failed to return book. Please try again.");
+            }
+        }
+    };
+
+    cardDetails.appendChild(unborrowBtn);
     
     let bookImage = document.createElement("img");
     bookImage.className = "BB_Card_BookImage";
@@ -148,4 +165,25 @@ function CreateCard(bookDetails){
     
     
     return card;
+}
+
+async function unborrowBook(bookId) {
+    const API_URL = ''; 
+    const userId = localStorage.getItem('userId');
+    
+    const response = await fetch(`${API_URL}/books/${bookId}/unborrow`, { 
+        //example enpoint for now will edit later in phase 3
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('userToken')}`
+        },
+        body: JSON.stringify({ userId })
+    });
+
+    if (!response.ok) {
+        throw new Error('Failed to unborrow book');
+    }
+
+    return await response.json();
 }

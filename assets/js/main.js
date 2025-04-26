@@ -1,30 +1,40 @@
 function updateNavigationByRole() {
-    const userRole = localStorage.getItem('userRole') || 'user';
+    const userToken = localStorage.getItem('userToken');
+    const userRole = localStorage.getItem('userRole');
+    
     const addBookNav = document.querySelector('.AddBookButton')?.parentElement?.parentElement;
     const borrowedBooksNav = document.querySelector('.BorrowedBooksButton')?.parentElement?.parentElement;
     
-    if (!addBookNav || !borrowedBooksNav) return;
+    if (!addBookNav && !borrowedBooksNav) return;
     
-    const addBookText = addBookNav.nextElementSibling;
-    const borrowedBooksText = borrowedBooksNav.nextElementSibling;
-
-    if (userRole === 'admin') {
-        addBookNav.style.display = 'block';
-        borrowedBooksNav.style.display = 'none';
-        addBookText.style.display = 'block';
-        borrowedBooksText.style.display = 'none';
-    } else {
+    if (addBookNav) {
+        const addBookText = addBookNav.nextElementSibling;
         addBookNav.style.display = 'none';
-        borrowedBooksNav.style.display = 'block';
-        addBookText.style.display = 'none';
-        borrowedBooksText.style.display = 'block';
+        if (addBookText) addBookText.style.display = 'none';
+        
+        if (userToken && userRole === 'admin') {
+            addBookNav.style.display = 'block';
+            if (addBookText) addBookText.style.display = 'block';
+        }
+    }
+    
+    if (borrowedBooksNav) {
+        const borrowedBooksText = borrowedBooksNav.nextElementSibling;
+        borrowedBooksNav.style.display = 'none';
+        if (borrowedBooksText) borrowedBooksText.style.display = 'none';
+        
+        if (userToken && userRole !== 'admin') {
+            borrowedBooksNav.style.display = 'block';
+            if (borrowedBooksText) borrowedBooksText.style.display = 'block';
+        }
     }
 }
 
 function updateNavbarAuth() {
     const userToken = localStorage.getItem('userToken');
     const navButtons = document.querySelector('.nav-buttons');
-    
+
+    if (!navButtons) return;
     
     if (userToken) {
         navButtons.innerHTML = `
@@ -48,6 +58,10 @@ function updateNavbarAuth() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    updateNavigationByRole();
-    updateNavbarAuth();
+    try {
+        updateNavigationByRole();
+        updateNavbarAuth();
+    } catch (error) {
+        console.error('Error updating navigation:', error);
+    }
 });

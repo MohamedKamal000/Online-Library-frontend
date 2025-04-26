@@ -62,6 +62,7 @@ form.addEventListener('submit', async function (e) {
 
         localStorage.setItem('userToken', response.token);
         localStorage.setItem('userRole', response.role);
+        localStorage.setItem('userId', response.userId);
 
         const redirectPath = 'ViewBooks.html';
         window.location.href = redirectPath;
