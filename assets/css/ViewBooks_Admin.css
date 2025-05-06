@@ -1,6 +1,6 @@
 body{
     font-family: 'Lato', sans-serif;
-    background-color: #1A1F25;
+    background-color: #222831;
     color: white;
     margin: 0;
     padding: 0;
@@ -15,13 +15,13 @@ body{
 .column{
     display: flex;
     flex-direction: column;
-    gap: 3rem;
+    gap: 1rem;
 }
 
 .row{
     display: flex;
     flex-direction: row;
-    gap: 3rem;
+    gap: 1rem;
 }
 
 button{
@@ -44,15 +44,15 @@ button:hover{
 
 .bookImage{
     background-image: url('../img/testImage.jpeg');
-    width: 250px;
-    height: 200px;
+    width: 300px;
+    height: 300px;
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
     cursor: pointer;
     overflow: hidden;
-    border-top-right-radius: 10px;
-    border-top-left-radius: 10px;
+    border-top-right-radius: 15px;
+    border-top-left-radius: 15px;
 }
 
 .bookCard:hover{
@@ -61,7 +61,7 @@ button:hover{
 
 .bookCard{
     background-color: #393E46;
-    border-radius: 10px;
+    border-radius: 15px;
     transition: transform 0.2s ease;
 }
 
@@ -105,36 +105,9 @@ button:hover{
     margin-top: 2rem;
 }
 
-.pagination-numbers {
-    display: flex;
-    justify-content: center;
-    gap: 0.5rem;
-    margin-top: 2rem;
-}
-
-.page-number {
-    padding: 8px 16px;
-    border: 1px solid #393E46;
-    border-radius: 4px;
-    cursor: pointer;
-    color: white;
-    background-color: #222831;
-    transition: all 0.3s ease;
-}
-
-.page-number:hover {
-    background-color: #008a90;
-    transform: scale(1.05);
-}
-
-.page-number.active {
-    background-color: #008a90;
-    border-color: #008a90;
-}
-
 .AdminViewBook{
     margin-top: 4rem;
-    margin-left: 10rem;
+    margin-left: 15rem;
 }
 
 .AdminViewBook_Title{
@@ -144,4 +117,38 @@ button:hover{
 
 .bookInfo{
     margin-left: 1rem;
+}
+
+.no-results {
+    text-align: center;
+    padding: 20px;
+    font-size: 1.2em;
+    color: #666;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.message {
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 4px;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.message.success {
+    background-color: #d4edda;
+    color: green;
+    border: 1px solid #c3e6cb;
+}
+
+.message.error {
+    background-color: #f8d7da;
+    color: red;
+    border: 1px solid #f5c6cb;
+}
+
+.message.show {
+    opacity: 1;
 }
