@@ -1,5 +1,6 @@
 .navbar {
-    background-color: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    background-color: #222831;
     padding: 1rem 2rem;
     display: flex;
     align-items: center;
@@ -18,7 +19,7 @@
 }
 
 .navbar-brand {
-    color: #222831;
+    color: white;
     font-family: 'Playfair Display', serif;
     font-size: 1.5rem;
     font-weight: bold;
@@ -46,7 +47,7 @@
     padding: 8px 12px;
     border: 1px solid #ddd;
     border-radius: 20px;
-    background: transparent;
+    background-color: #f5f5f5;
     color: #222831;
     font-size: 1rem;
     cursor: pointer;
@@ -63,7 +64,7 @@
 .search-category option:focus,
 .search-category option:active,
 .search-category option:checked {
-    background-color: #008A90 !important;
+    background-color: #008A90 ;
     color: white;
 }
 
@@ -78,7 +79,7 @@
     padding: 8px 8px 8px 35px;
     border: 1px solid #ddd;
     border-radius: 20px;
-    background: transparent;
+    background-color: #f5f5f5;
     color: #222831;
     font-size: 1rem;    
 }
@@ -94,10 +95,10 @@
 
 .nav-button {
     padding: 0 2rem;
-    background-color: transparent;
-    color: #222831;
+
+    color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 10px;
     cursor: pointer;
     text-decoration: none;
     transition: all 0.3s ease;
@@ -105,17 +106,12 @@
     height: 40px;
     display: flex;
     align-items: center;
-    font-size: 1.5rem;  
+    font-size: 2rem;
 }
 
 .nav-button:hover {
-    background-color: #222831;
+    background-color: #006D73;
     color: white;
     opacity: 1;
     text-decoration: none;
-}
-
-#logoutBtn:hover {
-    background-color: #ff4444;
-    color: white;
 }
