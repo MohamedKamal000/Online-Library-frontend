@@ -9,7 +9,8 @@ async function checkBookStatus() {
     if (!userToken) {
         BorrowBtn.textContent = 'Login to Borrow';
         BorrowBtn.classList.add('unavailable');
-        BorrowBtn.onclick = () => window.location.href = 'login.html';
+        //EDIT THIS LATER
+        // BorrowBtn.onclick = () => window.location.href = 'login.html';
         return;
     }
 

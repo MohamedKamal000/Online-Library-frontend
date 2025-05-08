@@ -38,7 +38,8 @@ function handleSearch(query, category) {
         const searchParams = new URLSearchParams();
         if (query) searchParams.set('query', query);
         if (category) searchParams.set('category', category);
-        window.location.href = `pages/ViewBooks.html?${searchParams.toString()}`;
+        // EDIT THIS LATER
+        // window.location.href = `pages/ViewBooks.html?${searchParams.toString()}`;
     }
 }
 

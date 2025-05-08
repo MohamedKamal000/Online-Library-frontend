@@ -12,10 +12,10 @@ function showMessage(message, isSuccess) {
     messageContainer.className = `message ${isSuccess ? 'success' : 'error'} show`;
 }
 
-EditBookBtn.onclick = () => {
-    console.log("Clicked");
-    window.location.href = `EditBook.html?id=${bookId_param}`;
-}
+// EDIT BOOK BUTTON
+// EditBookBtn.onclick = () => {
+//     window.location.href = `EditBook.html?id=${bookId_param}`;
+// }
 
 DeleteBookBtn.onclick = async () => {
     const isConfirmed = confirm("Are you sure you want to delete this book?");
@@ -25,7 +25,8 @@ DeleteBookBtn.onclick = async () => {
             await DeleteBook();
             showMessage('Book deleted successfully', true);
             setTimeout(() => {
-                window.location.href = "ViewBooks.html";
+            //EDIT BOOK BUTTON
+                // window.location.href = "ViewBooks.html";
             }, 2000);
         } catch (error) {
             showMessage('Failed to delete book', false);

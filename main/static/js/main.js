@@ -44,16 +44,17 @@ function updateNavbarAuth() {
         document.getElementById('logoutBtn').addEventListener('click', (e) => {
             e.preventDefault();
             localStorage.clear();
-            const isInPages = window.location.pathname.includes('/pages/');
-            window.location.href = isInPages ? '{% url "index" %}' : 'index';
+            // EDIT THIS LATER
+            // const isInPages = window.location.pathname.includes('/pages/');
+            // window.location.href = isInPages ? '{% url "index" %}' : 'index';
         });
     } else {
-        const isInPages = window.location.pathname.includes('/pages/');
-        const pathPrefix = isInPages ? '' : 'pages/';
-        navButtons.innerHTML = `
-            <a href="${pathPrefix}register.html" class="nav-button">Register</a>
-            <a href="${pathPrefix}login.html" class="nav-button">Login</a>
-        `;
+        // const isInPages = window.location.pathname.includes('/pages/');
+        // const pathPrefix = isInPages ? '' : 'pages/';
+        // navButtons.innerHTML = `
+        //     <a href="${pathPrefix}register.html" class="nav-button">Register</a>
+        //     <a href="${pathPrefix}login.html" class="nav-button">Login</a>
+        // `;
     }
 }
 

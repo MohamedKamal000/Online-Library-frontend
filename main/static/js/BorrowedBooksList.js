@@ -108,8 +108,9 @@ function CreateCard(bookDetails){
     let card = document.createElement("div");
     card.className = "BB_Card";
     card.onclick = () => {
-        const queryString = `?id=${encodeURIComponent(bookDetails.id)}&name=${encodeURIComponent(bookDetails.name)}&author=${encodeURIComponent(bookDetails.author)}&category=${encodeURIComponent(bookDetails.category)}&image=${encodeURIComponent(bookDetails.image)}`;
-        window.location.href = `ViewBookDetailsUser.html${queryString}`;
+        // EDIT THIS LATER
+        // const queryString = `?id=${encodeURIComponent(bookDetails.id)}&name=${encodeURIComponent(bookDetails.name)}&author=${encodeURIComponent(bookDetails.author)}&category=${encodeURIComponent(bookDetails.category)}&image=${encodeURIComponent(bookDetails.image)}`;
+        // window.location.href = `ViewBookDetailsUser.html${queryString}`;
     }
     
     let cardDetails = document.createElement("div");

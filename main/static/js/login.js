@@ -64,8 +64,9 @@ form.addEventListener('submit', async function (e) {
         localStorage.setItem('userRole', response.role);
         localStorage.setItem('userId', response.userId);
 
-        const redirectPath = 'ViewBooks.html';
-        window.location.href = redirectPath;
+        //EDIT BOOK BUTTON
+        // const redirectPath = 'ViewBooks.html';
+        // window.location.href = redirectPath;
     } catch (error) {
         showError(error.message);
     }

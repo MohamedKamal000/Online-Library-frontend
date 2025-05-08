@@ -64,7 +64,8 @@ form.addEventListener('submit', async function (e) {
         successMessage.style.display = 'block';
 
         setTimeout(() => {
-            window.location.href = 'login.html';
+            //edit this later
+            // window.location.href = 'login.html';
         }, 2000);
     } catch (error) {
         const errorMessage = document.getElementById('errorMessage');
