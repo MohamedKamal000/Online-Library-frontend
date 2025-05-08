@@ -20,6 +20,7 @@ function searchBooks(query, category) {
 
 function handleSearch(query, category) {
     const isViewBooksPage = window.location.pathname.includes('ViewBooks.html');
+    const isBorrowedBooksPage = window.location.pathname.includes('BorrowedBooksList.html');
     
     if (isViewBooksPage) {
         const filteredBooks = searchBooks(query, category);
@@ -31,6 +32,8 @@ function handleSearch(query, category) {
             currentPage = 1; 
             displayBooks(filteredBooks);
         }
+    } else if (isBorrowedBooksPage) {
+        searchBorrowedBooks(query, category);
     } else {
         const searchParams = new URLSearchParams();
         if (query) searchParams.set('query', query);

@@ -3,7 +3,7 @@ import {validator} from "./Validator.js"
 export function TryParseData(inputs){
     let BookResult = {
         "id" : "",
-        "name" : "",
+        "title" : "",
         "author" : "",
         "description" : "",
         "category" : ""

@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,16 +8,15 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/welcome.css">
-
-    <link rel="stylesheet" href="assets/css/navbar.css">
-    <link rel="stylesheet" href="assets/css/footer.css">
+    <link rel="stylesheet" href="{% static 'css/welcome.css' %}">
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+    <link rel="stylesheet" href="{% static 'css/footer.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <nav class="navbar">
         <div class="left-section">
-            <a href="index.html" class="navbar-brand">LMS</a>
+            <a href="{% url 'index' %}" class="navbar-brand">LMS</a>
             <div class="search-container">
                 <i class="fas fa-search search-icon"></i>
                 <input type="search" id="search" class="search-bar" placeholder="Search books...">
@@ -28,8 +28,8 @@
             </div>
         </div>
         <div class="nav-buttons">
-            <a href="pages/register.html" class="nav-button">Register</a>
-            <a href="pages/login.html" class="nav-button">Login</a>
+            <a href="{% url 'register' %}" class="nav-button">Register</a>
+            <a href="{% url 'login' %}" class="nav-button">Login</a>
         </div>
     </nav>
     <div class="main-content"> 
@@ -37,7 +37,7 @@
         <div class="books">Books</div>
         <div class="qoute">Discover and Enroll in a wide range of books offered by our library</div>
       
-        <a href="pages/ViewBooks.html" class="nav-link">Browse Books</a>
+        <a href="{% url 'view_books' %}" class="nav-link">Browse Books</a>
     </div>
     <footer class="footer">
         <div class="footer-content">
@@ -61,7 +61,7 @@
             © 2024 LMS. All rights reserved.
         </div>
     </footer>
-    <script src="assets/js/main.js"></script>
-    <script src="assets/js/search.js"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'js/search.js' %}"></script>
 </body>
 </html>

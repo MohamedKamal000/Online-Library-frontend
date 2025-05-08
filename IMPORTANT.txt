@@ -1,0 +1,28 @@
+Requirements:
+
+pip install Pillow
+pip install mysqlclient
+
+///////////////////////////////////////////////////////////
+command to run:
+venv\Scripts\activate
+python manage.py runserver    
+
+///////////////////////////////////////////////////////////
+Admin view:
+http://127.0.0.1:8000/admin/
+
+Cred:
+username: admin
+password: admin123
+
+To create new superuser:
+python manage.py createsuperuser
+/////////////////////////////////////////////////////////
+DB SQL command:
+
+CREATE DATABASE OnlineLibrary CHARACTER SET UTF8MB4;
+CREATE USER 'admin'@'localhost' IDENTIFIED BY 'admin123';
+GRANT ALL PRIVILEGES ON OnlineLibrary.* TO 'admin'@'localhost';
+FLUSH PRIVILEGES;
+/////////////////////////////////////////////////////////

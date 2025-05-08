@@ -1,32 +1,31 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add New Book</title>
-    <link rel="stylesheet" href="../assets/css/addNewBook.css">
-
+    <link rel="stylesheet" href="{% static 'css/addNewBook.css' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../assets/css/navbar.css">
-    <link rel="stylesheet" href="../assets/css/footer.css">
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+    <link rel="stylesheet" href="{% static 'css/footer.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="../assets/css/LeftNavBorder.css">
+    <link rel="stylesheet" href="{% static 'css/LeftNavBorder.css' %}">
 </head>
 <body>
     <nav class="navbar">
         <div class="left-section">
-            <a href="../index.html" class="navbar-brand">LMS</a>
-        
+            <a href="{% url 'index' %}" class="navbar-brand">LMS</a>
         </div>
         <div class="nav-buttons">
-            <a href="register.html" class="nav-button">Register</a>
-            <a href="login.html" class="nav-button">Login</a>
+            <a href="{% url 'register' %}" class="nav-button">Register</a>
+            <a href="{% url 'login' %}" class="nav-button">Login</a>
         </div>
     </nav>
     
-    <div id="resultMessage" >
+    <div id="resultMessage">
         <span id="resultMessageText">message Box</span>
     </div>
     
@@ -34,15 +33,15 @@
         <div class="left-NavBorder_NavigationIcons">
             <div class="NavigationButtonsColumn">
                 <div class="NavigationButton">
-                    <a href="ViewBooks.html">
+                    <a href="{% url 'view_books' %}">
                         <button class="ViewBooksButton"></button>
                     </a>
                 </div>
                 <p class="NavigationButtonText">View Books</p>
                 
                 <div class="NavigationButton">
-                    <a href="AddNewBook.html">
-                    <button class="AddBookButton"></button>
+                    <a href="{% url 'add_new_book' %}">
+                        <button class="AddBookButton"></button>
                     </a>
                 </div>
                 <p class="NavigationButtonText">Add New Book</p>
@@ -114,8 +113,7 @@
             © 2025 LMS. All rights reserved.
         </div>
     </footer>
-    <script type="module" src="../assets/js/AddBook.js"></script>
-    <script src="../assets/js/main.js"></script>
-
+    <script type="module" src="{% static 'js/AddBook.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
 </body>
 </html>

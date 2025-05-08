@@ -45,7 +45,7 @@ function updateNavbarAuth() {
             e.preventDefault();
             localStorage.clear();
             const isInPages = window.location.pathname.includes('/pages/');
-            window.location.href = isInPages ? '../index.html' : 'index.html';
+            window.location.href = isInPages ? '{% url "index" %}' : 'index';
         });
     } else {
         const isInPages = window.location.pathname.includes('/pages/');
