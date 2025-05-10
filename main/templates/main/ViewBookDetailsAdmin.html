@@ -13,15 +13,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body class="body-elements">
-    <nav class="navbar">
-        <div class="left-section">
-            <a href="{% url 'index' %}" class="navbar-brand">LMS</a>
-        </div>
-        <div class="nav-buttons">
-            <a href="{% url 'register' %}" class="nav-button">Register</a>
-            <a href="{% url 'login' %}" class="nav-button">Login</a>
-        </div>
-    </nav>
+    {% include 'Includes/navbar_withoutSearch.html' %}
     <main class="main-content">
         <div class="left-NavBorder">
             <div class="left-NavBorder_NavigationIcons">
@@ -80,29 +72,7 @@
                 </div>
             </div>
         </div>
-    </main>
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-brand">LMS</div>
-            <div class="footer-links">
-                <h3>Quick Links</h3>
-                <a href="">About Us</a>
-                <a href="">Contact</a>
-                <a href="">FAQ</a>
-                <a href="">Privacy Policy</a>
-            </div>
-            <div class="footer-social">
-                <a href="#"><i class="fab fa-facebook"></i></a>
-                <a href="#"><i class="fab fa-twitter"></i></a>
-                <a href="#"><i class="fab fa-instagram"></i></a>
-                <a href="#"><i class="fab fa-linkedin"></i></a>
-            </div>
-        </div>
-        <div class="footer-divider"></div>
-        <div class="footer-bottom">
-            © 2025 LMS. All rights reserved.
-        </div>
-    </footer>
+    </main>{% include 'Includes/footer.html' %}
     <script src="{% static 'js/Utilities/FillBookDetails.js' %}"></script>
     <script src="{% static 'js/BookDetailsAdmin.js' %}"></script>
     <script src="{% static 'js/main.js' %}"></script>

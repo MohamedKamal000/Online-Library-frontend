@@ -1,0 +1,20 @@
+    <nav class="navbar">
+        <div class="left-section">
+            <a href="{% url 'index' %}" class="navbar-brand">LMS</a>
+        </div>
+        <div class="nav-buttons">
+            <a href="{% url 'register' %}" class="nav-button">Register</a>
+            <a href="{% url 'login' %}" class="nav-button">Login</a>
+        </div>
+    </nav>
+
+{% comment %}
+when we add user login mechanizm, this will change 
+{% if user.is_authenticated %}
+        <span class="nav-user">Welcome, {{ user.username }}</span>
+        <a href="{% url 'logout' %}" class="nav-button">Logout</a>
+    {% else %}
+        <a href="{% url 'register' %}" class="nav-button">Register</a>
+        <a href="{% url 'login' %}" class="nav-button">Login</a>
+    {% endif %}
+{% endcomment %}
