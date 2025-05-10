@@ -1,13 +1,8 @@
 const form = document.querySelector("#loginForm");
-const API_URL = ''; 
 
 function validateEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
-}
-
-function validatePassword(password) {
-    return password.length >= 8;
 }
 
 function showError(message) {
@@ -16,34 +11,11 @@ function showError(message) {
     errorMessage.style.display = 'block';
 }
 
-async function loginUser(email, password) {
-    try {
-        // for when the API is ready (Phase 3)
-        // const response = await fetch(`${API_URL}/login`, {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //     },
-        //     body: JSON.stringify({ email, password })
-        // });
-        // ---- for testing only, will delete later
-        if(email === "test@admin.com" && password === "test1234"){
-            return { token: "dummyToken", role: "admin" };
-        }
-        if(email === "test@user.com" && password === "test1234"){
-            return { token: "dummyToken", role: "user" };
-        }
-        // ------------------------------------------
-    } catch (error) {
-        throw new Error('Login failed: ' + error.message);
-    }
-}
-
 form.addEventListener('submit', async function (e) {
     e.preventDefault();
 
-    const email = document.getElementById('email').value.trim();
-    const password = document.getElementById('password').value;
+    const email = document.getElementById('id_email').value.trim();
+    const password = document.getElementById('id_password').value;
 
     if (!email || !password) {
         return showError('Please fill in all fields');
@@ -53,21 +25,32 @@ form.addEventListener('submit', async function (e) {
         return showError('Please enter a valid email address');
     }
 
-    if (!validatePassword(password)) {
-        return showError('Password must be at least 8 characters long');
-    }
+    const formData = new URLSearchParams();
+    formData.append('email', email);
+    formData.append('password', password);
+    formData.append('csrfmiddlewaretoken', document.querySelector('[name=csrfmiddlewaretoken]').value);
 
     try {
-        const response = await loginUser(email, password);
+        const response = await fetch(window.location.href, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+            }
+        });
 
-        localStorage.setItem('userToken', response.token);
-        localStorage.setItem('userRole', response.role);
-        localStorage.setItem('userId', response.userId);
+        const data = await response.json();
 
-        //EDIT BOOK BUTTON
-        // const redirectPath = 'ViewBooks.html';
-        // window.location.href = redirectPath;
+        if (response.ok && data.success) {
+            localStorage.setItem('userRole', data.role);
+            localStorage.setItem('userId', data.userId);
+            window.location.href = '/view-books/';
+        } else {
+            showError(data.error || 'Login failed. Please try again.');
+        }
     } catch (error) {
-        showError(error.message);
+        console.error('Error:', error);
+        showError('An error occurred. Please try again.');
     }
 });

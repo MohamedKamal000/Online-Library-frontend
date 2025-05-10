@@ -1,53 +1,28 @@
-const API_URL = '';
 const form = document.getElementById('registerForm');
 
-async function registerUser(userData) {
-    try {
-        const response = await fetch(`${API_URL}/register`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(userData)
-        });
-
-        if (!response.ok) {
-            throw new Error('Registration failed');
-        }
-
-        return await response.json();
-    } catch (error) {
-        throw new Error(error.message || 'Registration failed');
-    }
-}
-
-form.addEventListener('submit', async function (e) {
+form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const username = document.getElementById('username').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const password = document.getElementById('password').value;
+    const errorElements = document.querySelectorAll('.error-message');
+    errorElements.forEach(element => element.textContent = '');
+
+    const password = document.querySelector('[name="password"]').value;
     const confirmPassword = document.getElementById('confirm-password').value;
-    const isAdmin = document.getElementById('is_admin').checked;
     let hasError = false;
 
-    if (username.length < 4 || username.length > 20) {
-        document.getElementById('usernameError').textContent = 'Username must be between 4 and 20 characters.';
-        hasError = true;
-    }
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    if (!emailRegex.test(email)) {
-        document.getElementById('emailError').textContent = 'Please enter a valid email address.';
+    if (password !== confirmPassword) {
+        document.getElementById('confirmPasswordError').textContent = 'Passwords do not match';
         hasError = true;
     }
 
     if (password.length < 8) {
-        document.getElementById('passwordError').textContent = 'Password must be at least 8 characters long.';
+        document.getElementById('passwordError').textContent = 'Password must be at least 8 characters';
         hasError = true;
     }
 
-    if (password !== confirmPassword) {
-        document.getElementById('confirmPasswordError').textContent = 'Passwords do not match.';
+    const username = document.querySelector('[name="username"]').value;
+    if (!/^[a-zA-Z0-9]{4,20}$/.test(username)) {
+        document.getElementById('usernameError').textContent = 'Username must be 4-20 characters and contain only letters and numbers';
         hasError = true;
     }
 
@@ -55,22 +30,40 @@ form.addEventListener('submit', async function (e) {
         return;
     }
 
+    const formData = new URLSearchParams();
+    formData.append('username', document.querySelector('[name="username"]').value);
+    formData.append('email', document.querySelector('[name="email"]').value);
+    formData.append('password', password);
+    formData.append('is_admin', document.querySelector('[name="is_admin"]').checked);
+    
     try {
-        const user = { username, email, password, role: isAdmin ? 'admin' : 'user' };
-        await registerUser(user);
+        const response = await fetch(window.location.href, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+            }
+        });
 
-        const successMessage = document.getElementById('successMessage');
-        successMessage.textContent = 'Registration successful! Redirecting to login...';
-        successMessage.style.display = 'block';
+        const data = await response.json();
 
-        setTimeout(() => {
-            //edit this later
-            // window.location.href = 'login.html';
-        }, 2000);
+        if (response.ok) {
+            document.getElementById('successMessage').textContent = 'Registration successful! Redirecting...';
+            setTimeout(() => {
+                window.location.href = '/login';
+            }, 2000);
+        } else {
+            for (const [field, errors] of Object.entries(data.errors)) {
+                const errorElement = document.getElementById(`${field}Error`);
+                if (errorElement) {
+                    errorElement.textContent = errors[0];
+                }
+            }
+        }
     } catch (error) {
-        const errorMessage = document.getElementById('errorMessage');
-        errorMessage.textContent = error.message;
-        errorMessage.style.display = 'block';
+        console.error('Error:', error);
+        document.getElementById('successMessage').textContent = 'An error occurred. Please try again.';
     }
 });
 

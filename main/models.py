@@ -3,7 +3,11 @@ from django.db import models
 from django.utils import timezone
 
 class User(AbstractUser):
-    is_admin = models.BooleanField(default=False) 
+    is_admin = models.BooleanField(default=False)
+    email = models.EmailField(unique=True)
+    
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username']
 
 
 class Book(models.Model):
