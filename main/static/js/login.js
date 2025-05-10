@@ -40,11 +40,15 @@ form.addEventListener('submit', async function (e) {
             }
         });
 
+        console.log('Response received:', response.status);
         const data = await response.json();
+        console.log('Response data:', data);
 
         if (response.ok && data.success) {
+            console.log('Login successful:', data);
             localStorage.setItem('userRole', data.role);
             localStorage.setItem('userId', data.userId);
+            localStorage.setItem('username', data.username);
             window.location.href = '/view-books/';
         } else {
             showError(data.error || 'Login failed. Please try again.');

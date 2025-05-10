@@ -1,3 +1,19 @@
+function getCsrfToken() {
+    const name = 'csrftoken';
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
 function updateNavigationByRole() {
     const userId = localStorage.getItem('userId');
     const userRole = localStorage.getItem('userRole');
@@ -32,12 +48,15 @@ function updateNavigationByRole() {
 
 function updateNavbarAuth() {
     const userId = localStorage.getItem('userId');
+    const userRole = localStorage.getItem('userRole');
     const navButtons = document.querySelector('.nav-buttons');
 
     if (!navButtons) return;
     
     if (userId) {
+        const username = localStorage.getItem('username') || 'User';
         navButtons.innerHTML = `
+            <span class="nav-user">Welcome, ${username}</span>
             <a href="#" class="nav-button" id="logoutBtn">Logout</a>
         `;
         
@@ -47,16 +66,20 @@ function updateNavbarAuth() {
                 const response = await fetch('/logout/', {
                     method: 'POST',
                     headers: {
-                        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                        'X-CSRFToken': getCsrfToken(),
+                        'Content-Type': 'application/json'
                     }
                 });
                 
                 if (response.ok) {
                     localStorage.clear();
                     window.location.href = '/';
+                } else {
+                    throw new Error('Logout failed');
                 }
             } catch (error) {
                 console.error('Logout failed:', error);
+                alert('Failed to logout. Please try again.');
             }
         });
     } else {

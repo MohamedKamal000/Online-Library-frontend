@@ -38,7 +38,8 @@ def login(request):
                 return JsonResponse({
                     'success': True,
                     'role': 'admin' if user.is_admin else 'user',
-                    'userId': user.id
+                    'userId': user.id,
+                    'username': user.username 
                 })
             return JsonResponse({
                 'success': False,
