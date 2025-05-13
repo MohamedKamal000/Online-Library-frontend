@@ -22,12 +22,12 @@ DeleteBookBtn.onclick = async () => {
     
     if (isConfirmed) {
         try {
-            await DeleteBook();
+            let bookId_int = parseInt(bookId_param)
+            await DeleteBook(bookId_int);
             showMessage('Book deleted successfully', true);
             setTimeout(() => {
-            //EDIT BOOK BUTTON
-                // window.location.href = "ViewBooks.html";
-            }, 2000);
+                window.location.href = redirectionAfterDelete
+                }, 2000);
         } catch (error) {
             showMessage('Failed to delete book', false);
             console.error('Error deleting book:', error);
@@ -35,14 +35,12 @@ DeleteBookBtn.onclick = async () => {
     }
 };
 
-async function DeleteBook() {
-    //replace with backend call in phase 3
-    const API_URL = ''; 
-    let request = new Request(`${API_URL}/books/${bookId_param}`, {
+async function DeleteBook(bookId) {
+    const url = `delete-book/${bookId}/`
+    let request = new Request(url, {
         method: "DELETE",
         headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('userToken')}`
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
         }
     });
     

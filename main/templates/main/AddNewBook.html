@@ -43,35 +43,32 @@
     <div class="main-container">
         <div class="form-section">
             <h1>Add New Book</h1>
-            <form>
+            <form method="POST" action="">
+                {% csrf_token %}
                 <div class="row">
                     <div class="input-group wide">
                         <label>Book Name</label>
-                        <input id="Add_title" class="Add_inputField" type="text">
-                    </div>
-                    <div class="input-group wide">
-                        <label>Book ID</label>
-                        <input id="Add_ID" class="Add_inputField" type="text">
+                        {{ form.title }}
                     </div>
                 </div>
                 <div class="row">
                     <div class="input-group wide">
                         <label>Author</label>
-                        <input id="Add_Author" class="Add_inputField" type="text">
+                        {{ form.author }}
                     </div>
                     <div class="input-group wide">
                         <label>Category</label>
-                        <input id="Add_Category" class="Add_inputField" type="text">
+                        {{ form.category }}
                     </div>
                 </div>
                 <div class="input-group">
                     <label>Description</label>
-                    <input id="Add_Description" class="Add_inputField" type="text">
+                    {{ form.description }}
                 </div>
                 <div class="input-group">
                     <label>Cover Image</label>
                     <span id="imageSelectionIndicator">No Image Selected</span>
-                    <input type="file" id="coverImage" accept="image/*" style="display: none;">
+                    {{ form.image }}
                     <label for="coverImage" class="upload-btn">+ Select Image</label>
                 </div>
                 <div class="buttons">

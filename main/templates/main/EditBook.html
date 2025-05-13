@@ -12,13 +12,9 @@
     <link rel="stylesheet" href="{% static 'css/footer.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="{% static 'css/LeftNavBorder.css' %}">
-    <link rel="stylesheet" href="{% static 'css/PopUpWindow_MakeSure.css' %}">
-    <script type="module" src="{% static 'js/Utilities/Validator.js' %}"></script>
-    <script type="module" src="{% static 'js/Utilities/Parser.js' %}"></script>
 </head>
 <body>
     {% include 'Includes/navbar_withoutSearch.html' %}
-
     <div id="resultMessage">
         <span id="resultMessageText">message Box</span>
     </div>
@@ -41,50 +37,42 @@
                 </div>
             </div>
         </div>
-        <form class="EditBookForm">
+        <form class="EditBookForm" method="POST">
+            {% csrf_token %}
             <h1 class="EditBookForm_Title">Edit Book</h1>
             <div class="Edit_Container">
                 <div class="column">
                     <div class="row">
                         <label for="Book_TitleInput" class="EditBookForm_InputLabel">
                             <br>  Book Title  <br>
-                            <input type="text" class="EditBookForm_BookIdInput"
-                                   id="Book_TitleInput" placeholder="Book Name">
+                            {{ form.title }}
                         </label>
                     </div>
                     <div class="row">
                         <label for="Book_AuthorInput" class="EditBookForm_InputLabel">
                             <br> Author <br>
-                            <input type="text" class="EditBookForm_BookIdInput"
-                                   id="Book_AuthorInput" placeholder="Author">
+                            {{ form.author }}
                         </label>
                         <label for="Book_CategoryInput" class="EditBookForm_InputLabel">
                             <br>  Category  <br>
-                            <input type="text" class="EditBookForm_BookIdInput"
-                                   id="Book_CategoryInput" placeholder="Category">
+                            {{ form.category }}
                         </label>
                     </div>
                     <div class="row">
                         <label for="Book_DescriptionInput" class="EditBookForm_InputLabel">
                             <br> Description <br>
-                            <input type="text" class="EditBookForm_BookIdInput"
-                                   id="Book_DescriptionInput" placeholder="Description">
-                        </label>
-                        <label for="Book_IdInput" class="EditBookForm_InputLabel">
-                            <br>  Book ID  <br>
-                            <input type="text" class="EditBookForm_BookIdInput"
-                                   id="Book_IdInput" placeholder="BookId">
+                            {{ form.description }}
                         </label>
                     </div>
                     <div class="row">
                         <button id="EditBookForm_SaveButtonId" 
                                 class="EditBookForm_SaveButton">Save Changes</button>
-                        <button class="EditBookForm_CancelButton">Cancel Changes</button>
+                        <button type="button" class="EditBookForm_CancelButton">Cancel Changes</button>
                     </div>
                 </div>
                 <div class="column">
                     <div class="row">
-                        <img src="{% static 'img/testImage.jpeg' %}" id="EditBookForm_bookImage">
+                        <img src="{{ image_url }}" id="EditBookForm_bookImage">
                     </div>
                     <div class="row image-upload-container">
                         <label class="upload-label">Change Book Image:</label>
