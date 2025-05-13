@@ -1,4 +1,3 @@
-import {TryParseData} from "./Utilities/Parser.js";
 
 const COLORS = {
     "Fail" : "#FC0005",
@@ -35,23 +34,23 @@ cancelBtn.onclick = () => {
 
 addImageInput.onchange = () => {
     const file = addImageInput.files[0];
-    
+
     if(!file){
         imageSelectedText.style.color = COLORS["Fail"];
         imageSelectedText.textContent = "Image Not Selected";
-        return;   
+        return;
     }
-    
+
     ChooseBookImage = file;
-    
+
     imageSelectedText.style.color = COLORS["Success"];
     imageSelectedText.textContent = "Image Selected ! :D";
 }
 
-function LoadDataFromInputFields(event) {
+async function LoadDataFromInputFields(event) {
     event.preventDefault();
-    let result = TryParseData(inputElements);
-    
+    let result = TryParseBookData(inputElements);
+
     if (!ChooseBookImage) {
         showError("Please select a book cover image");
         return;
@@ -62,8 +61,16 @@ function LoadDataFromInputFields(event) {
         return;
     }
 
+    result.Image = ChooseBookImage
+    let serverResponse = await MakeAddBookCall(result)
 
-    showSuccess("Book added successfully!");
+    let data = await serverResponse.json()
+    if (data.success && serverResponse.ok){
+        showSuccess("Book added successfully!");
+    }else {
+        showError("Something wrong happen");
+    }
+
 }
 
 function showError(message) {
@@ -85,15 +92,62 @@ function showMessage() {
     }, 5000);
 }
 
-async function MakeAddBookCall(bookDetails,bookImage){
-    let request = new Request("url",{
-        method : "Post",
-        "Content-type" : "application/json",
-        body: JSON.stringify(bookDetails)
+async function MakeAddBookCall(bookDetails){
+    const formData = new FormData();
+    for (let key in bookDetails) {
+        if (key !== "Image") {
+            formData.append(key, bookDetails[key]);
+        }
+    }
+
+    formData.append("image", bookDetails.Image);
+    formData.append("csrfmiddlewaretoken", document.querySelector('[name=csrfmiddlewaretoken]').value);
+
+    let request = new Request(window.location.href,{
+        method : "POST",
+        body: formData,
+        headers: {
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+        }
     });
-    
-    let response = await fetch(request);
-    
-    
-    return await response.json();
+
+    return await fetch(request);
+}
+
+
+const validator = {
+    ValidateID : (Id) => {
+        return Id !== "" && !isNaN(Number(Id));
+    },
+
+    ValidateEmpty : (C) => {
+        return C.trim() === ""
+    }
+}
+
+
+function TryParseBookData(inputs){
+    let BookResult = {
+        "title" : "",
+        "author" : "",
+        "description" : "",
+        "category" : ""
+    };
+
+    for (let i in BookResult){
+        for (let j in inputs){
+            if (!inputs[j] || typeof inputs[j].id !== 'string') continue;
+            let S = inputs[j].id.toLowerCase();
+            if (S.includes(i)){
+                BookResult[i] = inputs[j].value;
+            }
+        }
+    }
+
+    for (let item in BookResult){
+        if (validator.ValidateEmpty(BookResult[item]))
+            return undefined;
+    }
+
+    return BookResult;
 }

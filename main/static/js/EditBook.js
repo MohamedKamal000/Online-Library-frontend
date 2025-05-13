@@ -1,9 +1,3 @@
-import {TryParseData} from "./Utilities/Parser.js"
-
-
-let oldBookData = {};
-let oldImage;
-
 const COLORS = {
     "Fail" : "#FC0005",
     "Success" : "#14D97D"
@@ -19,35 +13,51 @@ const resultMessageText = document.getElementById("resultMessageText");
 const saveButton = document.getElementById("EditBookForm_SaveButtonId");
 const cancelButton = document.getElementsByClassName("EditBookForm_CancelButton").item(0);
 
-const BookImage = document.getElementById("EditBookForm_bookImage");
+let BookImage;
 const ChooseImageInput = document.getElementById("imageUpload");
 
 saveButton.onclick = SaveBookNewData;
 
 
-cancelButton.onclick = () => {
-    for(let i = 0 ; i < inputElements.length ; i++){
-        if (!inputElements[i] || typeof inputElements[i].value() !== "string")
-            continue;
-        inputElements[i].value = "";
-    }
-    
-    BookImage.src = oldImage;
+cancelButton.onclick =  () => {
+    window.location.reload();
 }
 
 ChooseImageInput.onchange = () => {
     const file = ChooseImageInput.files[0];
-    
+
     if (!file) return;
 
-    BookImage.src = URL.createObjectURL(file);
+    BookImage = file;
+    const imaged_Showen = document.getElementById("EditBookForm_bookImage");
+    imaged_Showen.src = URL.createObjectURL(BookImage);
 }
 
- async function SaveBookNewData(event) {
+async function SaveBookNewData(event) {
     event.preventDefault();
-    let result = TryParseData(inputElements);
+    let result = TryParseBookData(inputElements);
     if (result === undefined) {
         console.log("Can't Pares Data check inputs");
+        resultMessage.style.backgroundColor = COLORS["Fail"];
+        resultMessageText.textContent = "Fail :(";
+    }
+
+    resultMessage.style.top = "100px";
+
+    setTimeout(() => {
+        resultMessage.style.top = "-100px";
+    },5000);
+
+    result.image = BookImage;
+    const params = new URLSearchParams(window.location.search);
+    const bookId = params.get("id");
+    result.id = parseInt(bookId);
+    saveButton.disabled = true; // to prevent spamming api calls
+    const response = await MakeUpdateBookCall(result);
+    const data = await response.json();
+    saveButton.disabled = false;
+    console.log(data.success)
+    if (!response.ok && data.success){
         resultMessage.style.backgroundColor = COLORS["Fail"];
         resultMessageText.textContent = "Fail :(";
     }
@@ -55,102 +65,80 @@ ChooseImageInput.onchange = () => {
         resultMessage.style.backgroundColor = COLORS["Success"];
         resultMessageText.textContent = "Success !";
     }
-
-     resultMessage.style.top = "100px";
-    
-    setTimeout(() => {
-        resultMessage.style.top = "-100px";
-    },5000);
-
-    // the function that will make the backend call will take the book image and new details and maybe book id
-    // will un comment the following code when we make the backend 
-    /*
-    saveButton.disabled = true; // to prevent spamming api calls
-    const response = await MakeUpdateBookCall(result);
-    saveButton.disabled = false;
-    
-    if (response === undefined)
-        console.log("couldn't fetch") // will make a animation or a window that appear tells the user now
-    else
-        console.log(response)
-*/
 }
 
-function LoadOldBookData(){
-    /* const params = new URLSearchParams(window.location.search);*/
+async function LoadOldBookData(){
     const params = new URLSearchParams(window.location.search);
-    const bookId = params.get("id"); // should make a api call that fetches book old data
-    
-    // const params = await GetOldBookData(id);
-    
-     oldImage = BookImage.src;
-     
-     const oldValues = {
-         "id" : "",
-         "title" : "",
-         "author" : "",
-         "description" : "",
-         "category" : ""
-     };
-     
-    for (let key in oldValues){
-        let value = params.get(key);
-        if (!value || typeof value !== "string")
-            oldValues[key] = "Not Found";
-        else
-            oldValues[key] = value;
-    }
-    
-    
-    for (let i in oldValues){
-        for (let j in inputElements){
-            if (!inputElements[j] || typeof inputElements[j].id !== 'string') continue;
-            let S = inputElements[j].id.toLowerCase();
-            if (S.includes(i)){
-                inputElements[j].placeholder = oldValues[i];
-            }
-        }
-    }  
-    
-     oldBookData = oldValues;
+    const bookId = params.get("id");
+    await LoadOldBook(bookId);
 }
 
 
-
-
-// should take the old book id so we can do the backend call on it later 
 async function MakeUpdateBookCall(Book){
-    try{
-        let request = new Request('url',{
-            method : 'PUT',
-            headers:{
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(Book)
-        });
-        
-        const response = await fetch(request);
-        
-        if (!response.ok) throw new Error("Can't make update request ");
+    const formData = new FormData();
+    for (let key in Book){
+        formData.append(key,Book[key])
+    }
 
-        return await response.json();
-    }
-    catch(e){
-        console.log(`Error ${e}`)
-    }
-    
-    return undefined;
+    let request = new Request(window.location.href,{
+        method : 'POST',
+        headers:{
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+        },
+        body: formData
+    });
+
+    return await fetch(request);
 }
 
-async function GetOldBookData(id){
-    let request = new Request(`url/${id}`,{
+async function LoadOldBook(id){
+    let url = `/?id=${id}`
+    let request = new Request(url,{
         method : 'Get',
         headers:{
-            'Content-Type': 'application/json'
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
         }
     });
-    
-    let response = await fetch(request);
 
-    return await response.json();
+    return  await fetch(request);
+}
+
+
+
+
+
+
+
+
+
+const validator = {
+    ValidateEmpty : (C) => {
+        return C.trim() === ""
+    }
+}
+
+function TryParseBookData(inputs){
+    let BookResult = {
+        "title" : "",
+        "author" : "",
+        "description" : "",
+        "category" : ""
+    };
+
+    for (let i in BookResult){
+        for (let j in inputs){
+            if (!inputs[j] || typeof inputs[j].id !== 'string') continue;
+            let S = inputs[j].id.toLowerCase();
+            if (S.includes(i)){
+                BookResult[i] = inputs[j].value;
+            }
+        }
+    }
+/*
+    for (let item in BookResult){
+        if (validator.ValidateEmpty(BookResult[item]))
+            return undefined;
+    }*/
+
+    return BookResult;
 }
