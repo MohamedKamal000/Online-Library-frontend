@@ -88,7 +88,9 @@ let totalBooks = 0;
 async function fetchBooks() {
     try {
         //  actual API call for fetching books (Phase 3)
-        return dummyBooks; // Dummy data for testing
+        const response = await fetch('/books/api/list/');
+        const data = await response.json();
+return data;
     } catch (error) {
         console.error('Error fetching books:', error);
         return [];

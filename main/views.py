@@ -123,12 +123,11 @@ def deleteBook(request, book_id):
 
 
 def view_book_details_user(request):
-    if request.method == "POST":
-        data = json.loads(request.body)
-        bookId = data.get('bookId')
+    if request.method == "GET":
+        book_id = request.GET.get('id')
 
         try:
-            book = Book.objects.get(pk=bookId)
+            book = Book.objects.get(id=book_id)
             return JsonResponse({
                 'id': book.id,
                 'title': book.title,
