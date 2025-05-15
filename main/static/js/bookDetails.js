@@ -1,14 +1,27 @@
 async function getBookDetails(bookId) {
     // will replace fot backend call in phase 3
-    const books = await fetch('../assets/js/bookManager.js')
-        .then(response => response.text())
-        .then(text => {
-
-            const match = text.match(/const dummyBooks = (\[[\s\S]*?\]);/);
-            return match ? eval(match[1]) : [];
-            
-        });
-    return books.find(book => book.id === parseInt(bookId));
+     fetch('/view-book-details-user/'),{
+         method: 'POST',
+         headers: {
+             'content-Type': 'application/json'
+         },
+         body: JSON.stringify({bookId: bookId})
+     }
+        .then(response => {
+            if (response.status !== 200){
+                throw new Error("Book doesn't exist")
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log("Book details: ", data);
+            document.getElementById("BookTitle").innerText = data.title;
+            document.getElementById("BookCategory").innerText = data.category;
+            document.getElementById("BookAuthor").innerText = data.author;
+            document.getElementById("BookDescription").innerText = data.description;
+            document.getElementById("image").innerText = data.imageUrl;
+        })
+         .catch(error => console.error('Error in retrieving book: ', error));
     
 }
 

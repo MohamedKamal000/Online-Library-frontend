@@ -46,14 +46,14 @@ body {
 }
 
 .AddBookButton {
-    background-image: url('../img/icons/AddNewBook.png');
+    background-image: url('../assets/img/icons/AddNewBook.png');
     
 }
 
 .BorrowedBooksButton {
-    background-image: url('../img/icons/BorrowedBooks.png');
+    background-image: url('../assets/img/icons/BorrowedBooks.png');
 }
 
 .ViewBooksButton {
-    background-image: url('../img/icons/ViewBooks.png');
+    background-image: url('../assets/img/icons/ViewBooks.png');
 }

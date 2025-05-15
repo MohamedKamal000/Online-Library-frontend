@@ -123,6 +123,22 @@ def deleteBook(request, book_id):
 
 
 def view_book_details_user(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        bookId = data.get('bookId')
+
+        try:
+            book = Book.objects.get(pk=bookId)
+            return JsonResponse({
+                'id': book.id,
+                'title': book.title,
+                'author': book.author,
+                'category': book.category,
+                'imageUrl': str(book.image),
+                'description': book.description,
+            }, status=200)
+        except Exception as e:
+            return JsonResponse({'error':'book not found'}, status=404)
     return render(request, 'main/ViewBookDetailsUser.html')
 
 

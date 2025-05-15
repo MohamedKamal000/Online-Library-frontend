@@ -43,7 +43,7 @@ button:hover{
 }
 
 .bookImage{
-    background-image: url('../img/testImage.jpeg');
+    background-image: url('../assets/img/testImage.jpeg');
     width: 300px;
     height: 300px;
     background-repeat: no-repeat;

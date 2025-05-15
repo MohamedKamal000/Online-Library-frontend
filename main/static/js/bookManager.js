@@ -133,8 +133,8 @@ function displayBooks(books) {
 function navigateToBookDetails(bookId) {
     const userRole = getLoggedInUserRole();
     //EDIT THIS LATER
-    // const page = userRole === 'admin' ? 'ViewBookDetailsAdmin.html' : 'ViewBookDetailsUser.html';
-    // window.location.href = `${page}?id=${bookId}`;
+     const page = userRole === 'admin' ? 'view-book-details-admin/' : 'view-book-details-user/';
+     window.location.href = `${page}?id=${bookId}`;
 }
 
 function updatePaginationButtons() {
