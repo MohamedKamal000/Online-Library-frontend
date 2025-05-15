@@ -3,7 +3,6 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login as auth_login, authenticate, logout
 from django.templatetags.static import static
 
-
 from .forms import UserRegistrationForm, LoginForm, AddBookForm, EditBookForm
 from django.http import JsonResponse
 from django.views.decorators.csrf import ensure_csrf_cookie
@@ -125,24 +124,28 @@ def deleteBook(request, book_id):
 def view_book_details_user(request):
     if request.method == "GET":
         book_id = request.GET.get('id')
-
         try:
             book = Book.objects.get(id=book_id)
-            return JsonResponse({
+            book_imageUrl = "http://127.0.0.1:8000/media/" + str(book.image)
+            bookData = {
                 'id': book.id,
                 'title': book.title,
                 'author': book.author,
                 'category': book.category,
-                'imageUrl': str(book.image),
+                'imageUrl': book_imageUrl,
                 'description': book.description,
-            }, status=200)
+            }
+
+            context = {'book': bookData}
+            return render(request, 'main/ViewBookDetailsUser.html', context)
         except Exception as e:
-            return JsonResponse({'error':'book not found'}, status=404)
+            return JsonResponse({'error': 'book not found'}, status=404)
     return render(request, 'main/ViewBookDetailsUser.html')
 
 
 def view_book_details_admin(request):
     return render(request, 'main/ViewBookDetailsAdmin.html')
+
 
 def edit_book(request):
     if not request.user.is_authenticated:

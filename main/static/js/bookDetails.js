@@ -8,17 +8,11 @@ async function getBookDetails(bookId) {
             throw new Error("Book doesn't exist");
         }
 
-        const data = await response.json();
-
-        console.log("Book details: ", data);
-        document.getElementById("BookTitle").innerText = data.title;
-        document.getElementById("BookCategory").innerText = data.category;
-        document.getElementById("BookAuthor").innerText = data.author;
-        document.getElementById("BookDescription").innerText = data.description;
-        document.getElementById("image").src = data.imageUrl;  // لو صورة <img> لازم تستخدم src مش innerText
+        return await response.json();
     } catch (error) {
         console.error('Error in retrieving book: ', error);
     }
+
 }
 
 
@@ -46,7 +40,6 @@ function updatePageContent(book) {
 document.addEventListener('DOMContentLoaded', async () => {
     const urlParams = new URLSearchParams(window.location.search);
     const bookId = urlParams.get('id');
-    
     if (bookId) {
         const book = await getBookDetails(bookId);
         updatePageContent(book);
