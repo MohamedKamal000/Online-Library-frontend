@@ -134,7 +134,7 @@ function displayBooks(books) {
 function navigateToBookDetails(bookId) {
     const userRole = getLoggedInUserRole();
     //EDIT THIS LATER
-     const page = userRole === 'admin' ? 'view-book-details-admin/' : 'view-book-details-user/';
+     const page = userRole === 'admin' ? '/view-book-details-admin/' : '/view-book-details-user/'; // prefix the path with / to correctly move to that page
      window.location.href = `${page}?id=${bookId}`;
 }
 

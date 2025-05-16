@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login as auth_login, authenticate, logout
 from django.templatetags.static import static
 
+from backend import settings
 from .forms import UserRegistrationForm, LoginForm, AddBookForm, EditBookForm
 from django.http import JsonResponse
 from django.views.decorators.csrf import ensure_csrf_cookie
@@ -103,7 +104,6 @@ def add_new_book(request):
 
 
 def deleteBook(request, book_id):
-    print(book_id)
     if not request.user.is_authenticated:
         return redirect('login')
     if not CheckUserIsAdmin(request.user):
@@ -128,7 +128,12 @@ def view_book_details_user(request):
             return redirect('view_books')
         try:
             book = Book.objects.get(id=book_id)
-            book_imageUrl = "http://127.0.0.1:8000/media/" + str(book.image)
+            if book.image:
+                book_imageUrl = request.build_absolute_uri(book.image.url)
+            else:
+                default_image_path = settings.STATIC_URL + 'assets/img/DefaultImage.jpeg'
+                book_imageUrl = request.build_absolute_uri(default_image_path)
+
             bookData = {
                 'id': book.id,
                 'title': book.title,
@@ -146,13 +151,22 @@ def view_book_details_user(request):
 
 
 def view_book_details_admin(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    if not CheckUserIsAdmin(request.user):
+        return redirect('view_books')
     if request.method == "GET":
         book_id = request.GET.get('id')
         if not book_id:
             return redirect('view_books')
         try:
             book = Book.objects.get(id=book_id)
-            book_imageUrl = "http://127.0.0.1:8000/media/" + str(book.image)
+            if book.image:
+                book_imageUrl = request.build_absolute_uri(book.image.url)
+            else:
+                default_image_path = settings.STATIC_URL + 'assets/img/DefaultImage.jpeg'
+                book_imageUrl = request.build_absolute_uri(default_image_path)
+
             bookData = {
                 'id': book.id,
                 'title': book.title,
