@@ -144,6 +144,24 @@ def view_book_details_user(request):
 
 
 def view_book_details_admin(request):
+    if request.method == "GET":
+        book_id = request.GET.get('id')
+        try:
+            book = Book.objects.get(id=book_id)
+            book_imageUrl = "http://127.0.0.1:8000/media/" + str(book.image)
+            bookData = {
+                'id': book.id,
+                'title': book.title,
+                'author': book.author,
+                'category': book.category,
+                'imageUrl': book_imageUrl,
+                'description': book.description,
+            }
+
+            context = {'book': bookData}
+            return render(request, 'main/ViewBookDetailsAdmin.html', context)
+        except Exception as e:
+            return JsonResponse({'error': 'book not found'}, status=404)
     return render(request, 'main/ViewBookDetailsAdmin.html')
 
 

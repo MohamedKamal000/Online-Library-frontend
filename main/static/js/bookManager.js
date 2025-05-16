@@ -85,12 +85,11 @@ let currentPage = 1;
 const booksPerPage = 8;
 let totalBooks = 0;
 
+
 async function fetchBooks() {
     try {
         //  actual API call for fetching books (Phase 3)
-        const response = await fetch('/books/api/list/');
-        const data = await response.json();
-return data;
+        return dummyBooks; // Dummy data for testing
     } catch (error) {
         console.error('Error fetching books:', error);
         return [];
