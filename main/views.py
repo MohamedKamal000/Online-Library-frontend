@@ -124,6 +124,8 @@ def deleteBook(request, book_id):
 def view_book_details_user(request):
     if request.method == "GET":
         book_id = request.GET.get('id')
+        if not book_id:
+            return redirect('view_books')
         try:
             book = Book.objects.get(id=book_id)
             book_imageUrl = "http://127.0.0.1:8000/media/" + str(book.image)
@@ -139,13 +141,15 @@ def view_book_details_user(request):
             context = {'book': bookData}
             return render(request, 'main/ViewBookDetailsUser.html', context)
         except Exception as e:
-            return JsonResponse({'error': 'book not found'}, status=404)
+            return redirect('view_books')
     return render(request, 'main/ViewBookDetailsUser.html')
 
 
 def view_book_details_admin(request):
     if request.method == "GET":
         book_id = request.GET.get('id')
+        if not book_id:
+            return redirect('view_books')
         try:
             book = Book.objects.get(id=book_id)
             book_imageUrl = "http://127.0.0.1:8000/media/" + str(book.image)
@@ -161,7 +165,7 @@ def view_book_details_admin(request):
             context = {'book': bookData}
             return render(request, 'main/ViewBookDetailsAdmin.html', context)
         except Exception as e:
-            return JsonResponse({'error': 'book not found'}, status=404)
+            return redirect('view_books')
     return render(request, 'main/ViewBookDetailsAdmin.html')
 
 
