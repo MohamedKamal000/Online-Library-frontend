@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login as auth_login, authenticate, logout
 from django.templatetags.static import static
 
-
+from backend import settings
 from .forms import UserRegistrationForm, LoginForm, AddBookForm, EditBookForm
 from django.http import JsonResponse
 from django.views.decorators.csrf import ensure_csrf_cookie
@@ -104,7 +104,6 @@ def add_new_book(request):
 
 
 def deleteBook(request, book_id):
-    print(book_id)
     if not request.user.is_authenticated:
         return redirect('login')
     if not CheckUserIsAdmin(request.user):
@@ -123,27 +122,66 @@ def deleteBook(request, book_id):
 
 
 def view_book_details_user(request):
-    if request.method == "POST":
-        data = json.loads(request.body)
-        bookId = data.get('bookId')
-
+    if request.method == "GET":
+        book_id = request.GET.get('id')
+        if not book_id:
+            return redirect('view_books')
         try:
-            book = Book.objects.get(pk=bookId)
-            return JsonResponse({
+            book = Book.objects.get(id=book_id)
+            if book.image:
+                book_imageUrl = request.build_absolute_uri(book.image.url)
+            else:
+                default_image_path = settings.STATIC_URL + 'assets/img/DefaultImage.jpeg'
+                book_imageUrl = request.build_absolute_uri(default_image_path)
+
+            bookData = {
                 'id': book.id,
                 'title': book.title,
                 'author': book.author,
                 'category': book.category,
-                'imageUrl': str(book.image),
+                'imageUrl': book_imageUrl,
                 'description': book.description,
-            }, status=200)
+            }
+
+            context = {'book': bookData}
+            return render(request, 'main/ViewBookDetailsUser.html', context)
         except Exception as e:
-            return JsonResponse({'error':'book not found'}, status=404)
+            return redirect('view_books')
     return render(request, 'main/ViewBookDetailsUser.html')
 
 
 def view_book_details_admin(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    if not CheckUserIsAdmin(request.user):
+        return redirect('view_books')
+    if request.method == "GET":
+        book_id = request.GET.get('id')
+        if not book_id:
+            return redirect('view_books')
+        try:
+            book = Book.objects.get(id=book_id)
+            if book.image:
+                book_imageUrl = request.build_absolute_uri(book.image.url)
+            else:
+                default_image_path = settings.STATIC_URL + 'assets/img/DefaultImage.jpeg'
+                book_imageUrl = request.build_absolute_uri(default_image_path)
+
+            bookData = {
+                'id': book.id,
+                'title': book.title,
+                'author': book.author,
+                'category': book.category,
+                'imageUrl': book_imageUrl,
+                'description': book.description,
+            }
+
+            context = {'book': bookData}
+            return render(request, 'main/ViewBookDetailsAdmin.html', context)
+        except Exception as e:
+            return redirect('view_books')
     return render(request, 'main/ViewBookDetailsAdmin.html')
+
 
 def edit_book(request):
     if not request.user.is_authenticated:
