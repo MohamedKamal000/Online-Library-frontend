@@ -39,8 +39,24 @@
         <div class="BorrowedBooksCardsContainer">
             <h1 class="BB_Cards_Title">Borrowed Books</h1>
             <div class="BB_Card_List">
-                <!-- Borrowed Cards Goes Here -->
+    {% if borrowed_books %}
+        {% for borrowed in borrowed_books %}
+            <div class="BB_Card">
+                <img src="{{ borrowed.book.image.url }}" alt="{{ borrowed.book.title }}" class="BB_Card_Image">
+                <div class="BB_Card_Info">
+                    <h3>{{ borrowed.book.title }}</h3>
+                    <p><strong>Author:</strong> {{ borrowed.book.author }}</p>
+                    <p><strong>Borrowed on:</strong> {{ borrowed.borrowed_at|date:"Y-m-d H:i" }}</p>
+                </div>
             </div>
+        {% endfor %}
+    {% else %}
+        <p>No borrowed books found.</p>
+    {% endif %}
+</div>
+ 
+
+                
             <div class="ButtonRow">
                 <div class="pagination-numbers"></div>
             </div>

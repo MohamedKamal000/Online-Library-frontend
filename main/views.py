@@ -77,9 +77,35 @@ def view_books(request):
     return render(request, 'main/ViewBooks.html')
 
 
-def borrowed_books_list(request):
-    return render(request, 'main/BorrowedBooksList.html')
 
+
+def deleteBook(request, book_id):
+    print(book_id)
+    if not request.user.is_authenticated:
+        return redirect('login')
+    if not CheckUserIsAdmin(request.user):
+        return redirect('view_books')
+    if request.method == "DELETE":
+        try:
+            if not Book.objects.filter(id=book_id).exists():
+                return JsonResponse({'success': False}, status=404)
+            book = Book.objects.get(book_id)
+            book.delete()
+            return JsonResponse({'success': True}, status=200)
+        except:
+            return JsonResponse({'success': False}, status=500)
+
+    return JsonResponse({'success': False}, status=400)
+
+from django.contrib.auth.decorators import login_required
+from .models import BorrowedBook
+
+@login_required
+def borrowed_books_list(request):
+    borrowed_books = BorrowedBook.objects.filter(user=request.user).select_related('book')
+    return render(request, 'main/BorrowedBooksList.html', {
+        'borrowed_books': borrowed_books
+    })
 
 def add_new_book(request):
     if not request.user.is_authenticated:
@@ -101,25 +127,6 @@ def add_new_book(request):
     form = AddBookForm()
     context = {'form': form}
     return render(request, 'main/AddNewBook.html', context)
-
-
-def deleteBook(request, book_id):
-    print(book_id)
-    if not request.user.is_authenticated:
-        return redirect('login')
-    if not CheckUserIsAdmin(request.user):
-        return redirect('view_books')
-    if request.method == "DELETE":
-        try:
-            if not Book.objects.filter(id=book_id).exists():
-                return JsonResponse({'success': False}, status=404)
-            book = Book.objects.get(book_id)
-            book.delete()
-            return JsonResponse({'success': True}, status=200)
-        except:
-            return JsonResponse({'success': False}, status=500)
-
-    return JsonResponse({'success': False}, status=400)
 
 
 def view_book_details_user(request):
