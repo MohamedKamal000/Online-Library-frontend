@@ -140,17 +140,12 @@ function CreateCard(bookDetails){
 }
 
 async function unborrowBook(bookId) {
-    const API_URL = ''; 
-    const userId = localStorage.getItem('userId');
-    
-    const response = await fetch(`${API_URL}/books/${bookId}/unborrow`, { 
-        //example enpoint for now will edit later in phase 3
+    const response = await fetch(`/return-book/${bookId}/`, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('userToken')}`
-        },
-        body: JSON.stringify({ userId })
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+            'Content-Type': 'application/json'
+        }
     });
 
     if (!response.ok) {
