@@ -1,13 +1,13 @@
 import json
-from django.shortcuts import render, redirect
-from django.contrib.auth import login as auth_login, authenticate, logout
-from django.templatetags.static import static
 
+from django.shortcuts import render, redirect
+from django.contrib.auth import login as auth_login, logout
+from django.contrib.auth.decorators import login_required
+from .models import BorrowedBook
 from backend import settings
 from .forms import UserRegistrationForm, LoginForm, AddBookForm, EditBookForm
 from django.http import JsonResponse
 from django.views.decorators.csrf import ensure_csrf_cookie
-from django.contrib.auth.decorators import user_passes_test
 from .models import User, Book
 
 
@@ -77,8 +77,32 @@ def view_books(request):
     return render(request, 'main/ViewBooks.html')
 
 
+@login_required
 def borrowed_books_list(request):
-    return render(request, 'main/BorrowedBooksList.html')
+    borrowed_books = BorrowedBook.objects.filter(user=request.user).select_related('book')
+
+    borrowed_books_Data = []
+
+    for borrowed_book in borrowed_books:
+        if borrowed_book.book.image:
+            book_imageUrl = request.build_absolute_uri(borrowed_book.book.image.url)
+        else:
+            default_image_path = settings.STATIC_URL + 'assets/img/DefaultImage.jpeg'
+            book_imageUrl = request.build_absolute_uri(default_image_path)
+        borrowed_books_Data.append(
+            {
+                'id': borrowed_book.book.id,
+                'name': borrowed_book.book.title,
+                'author': borrowed_book.book.author,
+                'category': borrowed_book.book.category,
+                'image': book_imageUrl
+            }
+        )
+
+    return render(request, 'main/BorrowedBooksList.html', {
+        'borrowed_books': json.dumps(borrowed_books_Data),
+        'borrowed_books_DJ_array' : borrowed_books_Data
+    })
 
 
 def add_new_book(request):
