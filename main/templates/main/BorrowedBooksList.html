@@ -14,6 +14,10 @@
     <link rel="stylesheet" href="{% static 'css/footer.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="{% static 'css/pagiationNumbers.css' %}">
+    
+    <script>
+        const BORROWED_BOOKS_DATA = JSON.parse('{{ borrowed_books|escapejs }}');
+    </script>
 </head>
 <body>
     {% include 'Includes/navbar.html' %}
@@ -37,26 +41,14 @@
             </div>
         </div>
         <div class="BorrowedBooksCardsContainer">
-            <h1 class="BB_Cards_Title">Borrowed Books</h1>
-            <div class="BB_Card_List">
-    {% if borrowed_books %}
-        {% for borrowed in borrowed_books %}
-            <div class="BB_Card">
-                <img src="{{ borrowed.book.image.url }}" alt="{{ borrowed.book.title }}" class="BB_Card_Image">
-                <div class="BB_Card_Info">
-                    <h3>{{ borrowed.book.title }}</h3>
-                    <p><strong>Author:</strong> {{ borrowed.book.author }}</p>
-                    <p><strong>Borrowed on:</strong> {{ borrowed.borrowed_at|date:"Y-m-d H:i" }}</p>
+            <h1 class="BB_Cards_Title" >Borrowed Books</h1>
+            {% if borrowed_books_DJ_array %}
+                <div class="BB_Card_List"></div>
+            {% else %}
+                <div class="BB_NoBooksMessage" style="text-align:center; margin-top:20px; font-size:18px;">
+                    No borrowed books found.
                 </div>
-            </div>
-        {% endfor %}
-    {% else %}
-        <p>No borrowed books found.</p>
-    {% endif %}
-</div>
- 
-
-                
+            {% endif %}
             <div class="ButtonRow">
                 <div class="pagination-numbers"></div>
             </div>

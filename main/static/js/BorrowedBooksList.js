@@ -41,41 +41,14 @@ function updatePaginationButtons() {
     paginationContainer.innerHTML = paginationHTML;
 }
 
-function GenerateDummyData(count) {
-    const dummyData = [];
-    for (let i = 1; i <= count; i++) {
-        dummyData.push({
-            id: i.toString(),
-            name: `Book Title ${i}`,
-            author: `Author ${i}`,
-            category: `Category ${i % 5}`, // 5 categories for variety
-            image: "../assets/img/testImage.jpeg"
-        });
-    }
-    return dummyData;
-}
-
 async function LoadUserBorrowedBooks(){
     try {
-        /*let userId = window.localStorage.getItem("UserId"); // or take it from the query string idk yet
 
-        let request = new Request(`url/${userId}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-
-        let response = await fetch(request);
-        
-        let data = await response.json();
-*/
-        let data = GenerateDummyData(18);
+        let data = BORROWED_BOOKS_DATA;
         
         NumberOfPossiblePages = Math.ceil(data.length / MAX_CARDS_TO_DISPLAY);
         ArrayOfCards = new Array(NumberOfPossiblePages);
         
-        // make array full of max pages (4 cards) except last one which might have less
         for (let i = 0 ; i < NumberOfPossiblePages - 1; i++){
             ArrayOfCards[i] = new Array(MAX_CARDS_TO_DISPLAY).fill(0);
         }
@@ -95,7 +68,6 @@ async function LoadUserBorrowedBooks(){
             }
         });
 
-        console.log(ArrayOfCards);
         LoadCardsWithPage(0);
     }
     catch (error){
@@ -108,9 +80,8 @@ function CreateCard(bookDetails){
     let card = document.createElement("div");
     card.className = "BB_Card";
     card.onclick = () => {
-        // EDIT THIS LATER
-        // const queryString = `?id=${encodeURIComponent(bookDetails.id)}&name=${encodeURIComponent(bookDetails.name)}&author=${encodeURIComponent(bookDetails.author)}&category=${encodeURIComponent(bookDetails.category)}&image=${encodeURIComponent(bookDetails.image)}`;
-        // window.location.href = `ViewBookDetailsUser.html${queryString}`;
+        const queryString = `?id=${encodeURIComponent(bookDetails.id)}`;
+        window.location.href = localStorage.getItem("userRole") === "admin" ? `/view-book-details-admin/${queryString}` : `/view-book-details-user/${queryString}`;
     }
     
     let cardDetails = document.createElement("div");
@@ -148,7 +119,7 @@ function CreateCard(bookDetails){
                 await unborrowBook(bookDetails.id);
                 card.remove();
                 alert("Book returned successfully!");
-                await LoadUserBorrowedBooks();
+                window.location.reload();
             } catch (error) {
                 alert("Failed to return book. Please try again.");
             }
