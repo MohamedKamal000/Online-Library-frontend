@@ -3,6 +3,8 @@ import json
 from django.shortcuts import render, redirect
 from django.contrib.auth import login as auth_login, logout
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
+
 from .models import BorrowedBook
 from backend import settings
 from .forms import UserRegistrationForm, LoginForm, AddBookForm, EditBookForm
@@ -101,7 +103,7 @@ def borrowed_books_list(request):
 
     return render(request, 'main/BorrowedBooksList.html', {
         'borrowed_books': json.dumps(borrowed_books_Data),
-        'borrowed_books_DJ_array' : borrowed_books_Data
+        'borrowed_books_DJ_array': borrowed_books_Data
     })
 
 
@@ -212,7 +214,6 @@ def edit_book(request):
         return redirect('login')
     if not CheckUserIsAdmin(request.user):
         return redirect('view_books')
-
     if request.method == "POST":
         try:
             bookId = request.POST.get("id")
@@ -249,3 +250,57 @@ def edit_book(request):
 
 def CheckUserIsAdmin(user):
     return User.objects.get(pk=user.pk).is_admin
+
+
+@require_POST
+def borrow_book(request, book_id):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    try:
+        book = Book.objects.get(pk=book_id)
+
+        if not book.is_available:
+            return JsonResponse({'success': False, 'error': 'Book is already borrowed'}, status=400)
+
+        BorrowedBook.objects.create(user=request.user, book=book)
+        book.is_available = False
+        book.save()
+
+        return JsonResponse({'success': True})
+    except Book.DoesNotExist:
+        return JsonResponse({'success': False, 'error': 'Book not found'}, status=404)
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)}, status=500)
+
+
+@require_POST
+def return_book(request, book_id):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    try:
+        borrowed = BorrowedBook.objects.get(book_id=book_id, user=request.user)
+
+        book = borrowed.book
+        book.is_available = True
+        book.save()
+
+        borrowed.delete()
+
+        return JsonResponse({'success': True})
+    except BorrowedBook.DoesNotExist:
+        return JsonResponse({'success': False, 'error': 'You haven’t borrowed this book'}, status=404)
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)}, status=500)
+
+
+def CheckBookStatus(request, book_id):
+    if not request.user.is_authenticated:
+        return redirect('login')
+
+    try:
+        book = Book.objects.get(pk=book_id)
+        return JsonResponse({'success': True, 'isBorrowed': book.is_available})
+    except Book.DoesNotExist:
+        return JsonResponse({'success': False, 'error': 'Book Does Not Exist'}, status=404)
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)}, status=500)
