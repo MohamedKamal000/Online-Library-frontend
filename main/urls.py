@@ -9,8 +9,11 @@ urlpatterns = [
     path('view-books/', views.view_books, name='view_books'),
     path('borrowed-books/', views.borrowed_books_list, name='borrowed_books_list'),
     path('add-new-book/', views.add_new_book, name='add_new_book'),
-    path('view-books/view-book-details-user/', views.view_book_details_user, name='view_book_details_user'),
+    path('view-book-details-user/', views.view_book_details_user, name='view_book_details_user'),
     path('view-book-details-admin/', views.view_book_details_admin, name='view_book_details_admin'),
     path('edit-book/', views.edit_book, name='edit_book'),
     path('view-book-details-admin/delete-book/<int:book_id>/', views.deleteBook, name='delete-book'),
+    path('borrow-book/<int:book_id>/', views.borrow_book, name='borrow_book'),
+    path('return-book/<int:book_id>/', views.return_book, name='return_book'),
+    path('CheckBookBorrowStatus/<int:book_id>/', views.CheckBookStatus,name='CheckBookBorrowStatus')
 ]
