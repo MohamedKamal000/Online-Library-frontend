@@ -4,13 +4,12 @@ const currentUser = localStorage.getItem("currentUser");
 const BorrowBtn = document.getElementById("BorrowButton");
 
 async function checkBookStatus() {
-    const userToken = localStorage.getItem('userToken');
+    const userToken = localStorage.getItem('userId');
     
     if (!userToken) {
         BorrowBtn.textContent = 'Login to Borrow';
         BorrowBtn.classList.add('unavailable');
-        //EDIT THIS LATER
-        // BorrowBtn.onclick = () => window.location.href = 'login.html';
+        BorrowBtn.onclick = () => window.location.href = '/login'
         return;
     }
 
