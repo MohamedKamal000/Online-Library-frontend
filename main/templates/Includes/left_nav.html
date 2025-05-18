@@ -1,0 +1,30 @@
+{% load static %}
+<div class="left-NavBorder">
+    <div class="left-NavBorder_NavigationIcons">
+        <div class="NavigationButtonsColumn">
+            <div class="NavigationButton">
+                <a href="{% url 'view_books' %}">
+                    <button class="ViewBooksButton"></button>
+                </a>
+                <p class="NavigationButtonText">View Books</p>
+            </div>
+            {% if user.is_authenticated %}
+                {% if user.is_admin %}
+                    <div class="NavigationButton">
+                        <a href="{% url 'add_new_book' %}">
+                            <button class="AddBookButton"></button>
+                        </a>
+                        <p class="NavigationButtonText">Add New Book</p>
+                    </div>
+                {% else %}
+                    <div class="NavigationButton">
+                        <a href="{% url 'borrowed_books_list' %}">
+                            <button class="BorrowedBooksButton"></button>
+                        </a>
+                        <p class="NavigationButtonText">Borrowed Books</p>
+                    </div>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+</div>

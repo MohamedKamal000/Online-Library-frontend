@@ -1,0 +1,108 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>404 - Page Not Found</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-color: #222831;
+            font-family: 'Lato', sans-serif;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            margin-top: 70px;
+        }
+
+        .error-container {
+            background-color: #393E46;
+            padding: 3rem;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 4px 16px rgba(0, 173, 181, 0.2);
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .error-icon {
+            font-size: 5rem;
+            color: #00ADB5;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-size: 6rem;
+            color: #00ADB5;
+            margin: 0;
+            font-family: 'Playfair Display', serif;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            color: #EEEEEE;
+            margin: 1rem 0;
+        }
+
+        p {
+            font-size: 1.2rem;
+            color: #EEEEEE;
+            margin-bottom: 2rem;
+        }
+
+        .home-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background-color: #00ADB5;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .home-button:hover {
+            background-color: #008A90;
+            transform: scale(1.05);
+        }
+
+        .home-button i {
+            font-size: 1.2rem;
+        }
+    </style>
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+    <link rel="stylesheet" href="{% static 'css/footer.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    {% include 'Includes/navbar_withoutSearch.html' %}
+    <main class="main-content">
+        <div class="error-container">
+            <i class="fas fa-exclamation-circle error-icon"></i>
+            <h1>404</h1>
+            <h2>Page Not Found</h2>
+            <p>The page you are looking for doesn't exist or has been moved.</p>
+            <a href="{% url 'view_books' %}" class="home-button">
+                <i class="fas fa-home"></i>
+                Back to Books
+            </a>
+        </div>
+    </main>
+    {% include 'Includes/footer.html' %}
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

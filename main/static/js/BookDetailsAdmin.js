@@ -1,7 +1,6 @@
 const EditBookBtn = document.getElementById("EditBookButton");
 const DeleteBookBtn = document.getElementById("DeleteBookButton");
-
-const bookId_param = new URLSearchParams(window.location.search).get("id");
+const currBookId = new URLSearchParams(window.location.search).get("id");
 
 const messageContainer = document.createElement('div');
 messageContainer.className = 'message';
@@ -13,40 +12,62 @@ function showMessage(message, isSuccess) {
 }
 
 // EDIT BOOK BUTTON
-// EditBookBtn.onclick = () => {
-//     window.location.href = `EditBook.html?id=${bookId_param}`;
-// }
+EditBookBtn.addEventListener('click', () => {
+    const editUrl = `/edit-book/?id=${currBookId}`;
+    window.location.href = editUrl;
+});
 
 DeleteBookBtn.onclick = async () => {
     const isConfirmed = confirm("Are you sure you want to delete this book?");
     
     if (isConfirmed) {
         try {
-            let bookId_int = parseInt(bookId_param)
-            await DeleteBook(bookId_int);
-            showMessage('Book deleted successfully', true);
+            await DeleteBook(currBookId);
+            const bookTitle = document.getElementById('BookTitle').textContent;
+            
+            const notificationWrapper = document.createElement('div');
+            notificationWrapper.className = 'notification-wrapper';
+            
+            const successMsg = document.createElement('div');
+            successMsg.className = 'success-message';
+            successMsg.textContent = `Successfully deleted "${bookTitle}"`;
+            
+            notificationWrapper.appendChild(successMsg);
+            document.body.appendChild(notificationWrapper);
+            
             setTimeout(() => {
-                window.location.href = redirectionAfterDelete
-                }, 2000);
+                notificationWrapper.remove();
+                window.location.href = redirectionAfterDelete;
+            }, 2500);
         } catch (error) {
-            showMessage('Failed to delete book', false);
+            const notificationWrapper = document.createElement('div');
+            notificationWrapper.className = 'notification-wrapper';
+            
+            const errorMsg = document.createElement('div');
+            errorMsg.className = 'success-message error';
+            errorMsg.textContent = 'Failed to delete book. Please try again.';
+            
+            notificationWrapper.appendChild(errorMsg);
+            document.body.appendChild(notificationWrapper);
+            setTimeout(() => notificationWrapper.remove(), 2500);
             console.error('Error deleting book:', error);
         }
     }
 };
 
 async function DeleteBook(bookId) {
-    const url = `delete-book/${bookId}/`
-    let request = new Request(url, {
-        method: "DELETE",
+    const response = await fetch(`/view-book-details-admin/delete-book/${bookId}/`, {
+        method: 'DELETE',
         headers: {
             'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
         }
     });
+
+    const data = await response.json();
     
-    let response = await fetch(request);
     if (!response.ok) {
-        throw new Error('Failed to delete book');
+        throw new Error(data.error || 'Failed to delete book');
     }
-    return await response.json();
+    
+    return data;
 }

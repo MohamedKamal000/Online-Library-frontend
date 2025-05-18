@@ -1,95 +1,24 @@
-// Dummy data for testing
-const dummyBooks = [
-    {
-        id: 1,
-        title: "The Great Gatsby",
-        author: "F. Scott Fitzgerald",
-        description: "A story of decadence and excess.",
-        category: "Classic",
-        imageUrl: "../assets/img/testImage.jpeg"
-    },
-    {
-        id: 2,
-        title: "1984",
-        author: "George Orwell",
-        description: "A dystopian social science fiction.",
-        category: "Science Fiction",
-        imageUrl: "../assets/img/testImage.jpeg"
-    }, {
-        id: 2,
-        title: "1984",
-        author: "George Orwell",
-        description: "A dystopian social science fiction.",
-        category: "Science Fiction",
-        imageUrl: "../assets/img/testImage.jpeg"
-    }, {
-        id: 2,
-        title: "1984",
-        author: "George Orwell",
-        description: "A dystopian social science fiction.",
-        category: "Science Fiction",
-        imageUrl: "../assets/img/testImage.jpeg"
-    }, {
-        id: 2,
-        title: "1984",
-        author: "George Orwell",
-        description: "A dystopian social science fiction.",
-        category: "Science Fiction",
-        imageUrl: "../assets/img/testImage.jpeg"
-    }, {
-        id: 2,
-        title: "1984",
-        author: "George Orwell",
-        description: "A dystopian social science fiction.",
-        category: "Science Fiction",
-        imageUrl: "../assets/img/testImage.jpeg"
-    }, {
-        id: 2,
-        title: "1984",
-        author: "George Orwell",
-        description: "A dystopian social science fiction.",
-        category: "Science Fiction",
-        imageUrl: "../assets/img/testImage.jpeg"
-    }, {
-        id: 2,
-        title: "1984",
-        author: "George Orwell",
-        description: "A dystopian social science fiction.",
-        category: "Science Fiction",
-        imageUrl: "../assets/img/testImage.jpeg"
-    }, {
-        id: 2,
-        title: "1984",
-        author: "George Orwell",
-        description: "A dystopian social science fiction.",
-        category: "Science Fiction",
-        imageUrl: "../assets/img/testImage.jpeg"
-    }, {
-        id: 2,
-        title: "1984",
-        author: "George Orwell",
-        description: "A dystopian social science fiction.",
-        category: "Science Fiction",
-        imageUrl: "../assets/img/testImage.jpeg"
-    }, {
-        id: 2,
-        title: "1984",
-        author: "George Orwell",
-        description: "A dystopian social science fiction.",
-        category: "Science Fiction",
-        imageUrl: "../assets/img/testImage.jpeg"
-    }, 
-];
-
 let currentPage = 1;
 const booksPerPage = 8;
 let totalBooks = 0;
+let allBooks = [];
 
 
 async function fetchBooks() {
     try {
-        //  actual API call for fetching books (Phase 3)
-        return dummyBooks; // Dummy data for testing
+        const response = await fetch('/fetch-books/', {
+            method: 'GET',
+            headers: {
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+            }
+        });
+        
+        const data = await response.json();
+        if (data.success) {
+            return data.books;
+        } else {
+            throw new Error(data.error || 'Failed to fetch books');
+        }
     } catch (error) {
         console.error('Error fetching books:', error);
         return [];
@@ -112,15 +41,17 @@ function displayBooks(books) {
         if (index > 0 && index % 4 === 0) {
             html += '</div><div class="row">';
         }
+        const truncatedDescription = book.description?.length > 100 
+            ? book.description.substring(0, 100) + '...' 
+            : book.description;
+
         html += `
             <div class="bookCard">
                 <div class="bookImage" onclick="navigateToBookDetails(${book.id})" 
                      style="background-image: url('${book.imageUrl}')"></div>
-                <div class="row">
-                    <div class="bookInfo">
-                        <h3>${book.title}</h3>
-                        <p>${book.description}</p>
-                    </div>
+                <div class="bookInfo">
+                    <h3>${book.title}</h3>
+                    <p title="${book.description}">${truncatedDescription}</p>
                 </div>
             </div>
         `;
@@ -133,7 +64,6 @@ function displayBooks(books) {
 
 function navigateToBookDetails(bookId) {
     const userRole = getLoggedInUserRole();
-    //EDIT THIS LATER
      const page = userRole === 'admin' ? '/view-book-details-admin/' : '/view-book-details-user/'; // prefix the path with / to correctly move to that page
      window.location.href = `${page}?id=${bookId}`;
 }
@@ -158,10 +88,14 @@ function goToPage(pageNumber) {
 }
 
 async function initializeBooks() {
-    const books = await fetchBooks();
-    totalBooks = books.length;
-    displayBooks(books);
-    updatePaginationButtons();
+    try {
+        allBooks = await fetchBooks(); 
+        totalBooks = allBooks.length;
+        displayBooks(allBooks);
+        updatePaginationButtons();
+    } catch (error) {
+        console.error('Error initializing books:', error);
+    }
 }
 
 document.addEventListener('DOMContentLoaded', initializeBooks);

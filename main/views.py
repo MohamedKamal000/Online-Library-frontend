@@ -131,20 +131,21 @@ def add_new_book(request):
 
 def deleteBook(request, book_id):
     if not request.user.is_authenticated:
-        return redirect('login')
+        return JsonResponse({'success': False, 'error': 'Not authenticated'}, status=401)
     if not CheckUserIsAdmin(request.user):
-        return redirect('view_books')
+        return JsonResponse({'success': False, 'error': 'Not authorized'}, status=403)
+    
     if request.method == "DELETE":
         try:
-            if not Book.objects.filter(id=book_id).exists():
-                return JsonResponse({'success': False}, status=404)
-            book = Book.objects.get(book_id)
+            book = Book.objects.get(id=book_id)  # Fix: Changed from book_id to id
             book.delete()
-            return JsonResponse({'success': True}, status=200)
-        except:
-            return JsonResponse({'success': False}, status=500)
-
-    return JsonResponse({'success': False}, status=400)
+            return JsonResponse({'success': True})
+        except Book.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Book not found'}, status=404)
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e)}, status=500)
+    
+    return JsonResponse({'success': False, 'error': 'Invalid method'}, status=405)
 
 
 def view_book_details_user(request):
@@ -244,7 +245,7 @@ def edit_book(request):
     book = Book.objects.get(pk=bookId)
     form = EditBookForm(instance=book)
     image_url = book.image.url if book.image else '/static/img/testImage.jpeg'
-    context = {'form': form, 'image_url': image_url}
+    context = {'form': form, 'image_url': image_url, 'book': book}
     return render(request, 'main/EditBook.html', context)
 
 
@@ -302,5 +303,30 @@ def CheckBookStatus(request, book_id):
         return JsonResponse({'success': True, 'isBorrowed': book.is_available})
     except Book.DoesNotExist:
         return JsonResponse({'success': False, 'error': 'Book Does Not Exist'}, status=404)
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)}, status=500)
+    
+def handler404(request, exception=None):
+    context = {}
+    response = render(request, 'main/404.html', context)
+    response.status_code = 404
+    return response
+
+def fetch_books(request):
+    try:
+        books = Book.objects.all()
+        books_data = []
+        for book in books:
+            book_imageUrl = book.image.url if book.image else settings.STATIC_URL + 'assets/img/DefaultImage.jpeg'
+            books_data.append({
+                'id': book.id,
+                'title': book.title,
+                'author': book.author,
+                'description': book.description,
+                'category': book.category,
+                'imageUrl': request.build_absolute_uri(book_imageUrl),
+                'is_available': book.is_available
+            })
+        return JsonResponse({'success': True, 'books': books_data})
     except Exception as e:
         return JsonResponse({'success': False, 'error': str(e)}, status=500)

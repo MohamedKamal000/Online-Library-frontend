@@ -82,49 +82,88 @@ body {
 }
 
 .right-image {
-    width: 300px;
+    width: 100%;
     height: 350px;
     margin-top: 30px;
     display: flex;
     justify-content: center;
     margin-bottom: 1rem;
+    padding: 0 1rem;
+    box-sizing: border-box;
 }
 
-.body-images {
-    margin-left: 0;
-    width: 80px;
-    height: 80px;
-}
-
-.body-text {
-    color: white;
-    font-size: larger;
-    margin: 0;
+.right-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 10%;
 }
 
 .body-content {
-    width: 100%;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
+    margin-bottom: 2.5rem;
     gap: 2rem;
-    padding: 1rem;
-    
+}
+
+.info-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    min-height: 4rem;
+    margin-left: 0;
+    padding-left: 0;
+}
+
+.info-header {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #008A90;
+    line-height: 1.2;
+    margin-bottom: 0.2rem;
+    margin-left: 0;
+    padding-left: 0;
+}
+
+.body-images {
+    width: 4rem;
+    height: 4rem;
+    margin-right: 2rem;
+}
+
+.body-text {
+    font-size: 1.3rem;
+    color: #eeeeee;
+    line-height: 1.2;
+    margin-left: 0;
+    padding-left: 0;
 }
 
 .button {
     color: white;
-    font-size: 20px;
+    font-size: 1.3rem;
     font-weight: bold;
-    padding: 10px 30px;
+    padding: 12px 24px;
     border: none;
     border-radius: 10px;
     cursor: pointer;
     display: flex;
     align-items: center;
+    justify-content: center;
     margin: 0;
-    width: 200px;
-    gap: 10px;
+    width: 220px;
+    gap: 15px;
     transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.button i.button-icon {
+    font-size: 1.8rem;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .button:hover {
@@ -145,6 +184,20 @@ body {
     padding-left: 0;
 }
 
+.button.unavailable {
+    background-color: #666 !important;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.button.login-required {
+    background-color: #008A90 !important;
+}
+
+.button-icon.unavailable-icon {
+    filter: brightness(0.8);
+}
+
 .AdminViewBook_Container {
     display: flex;
     flex-direction: row;
@@ -162,12 +215,88 @@ body {
     gap: 1rem;
 }
 
+.text-container {
+    display: flex;
+    align-items: center;
+}
+
 .book-description {
-    margin-top: -20px;
-    color: white;
+    color: #ffffff;
+    font-size: 1.2rem;
+    line-height: 1.6;
+    text-align: left;
+    padding: 0 1.5rem;
+    margin: 1.5rem 0 0 0;
+    width: 90%;
+    max-width: 440px;
+    box-sizing: border-box;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    word-break: break-word;
+    transition: all 0.3s;
+}
+
+.description-expanded {
+    -webkit-line-clamp: unset;
+    max-height: none;
+    overflow: visible;
+}
+
+.read-more-btn {
+    background: none;
+    border: none;
+    color: #00ADB5;
     font-size: 1rem;
-    line-height: 1.5;
-    padding: 1.5rem;
-    text-align: center;
-    max-width: 400px;
+    cursor: pointer;
+    margin: 0.5rem 0 0 1.5rem;
+    padding: 0;
+    text-align: left;
+    transition: color 0.2s;
+}
+
+.read-more-btn:hover {
+    color: #008A90;
+    text-decoration: underline;
+}
+
+.notification-wrapper {
+    position: fixed;
+    top: 10px !important;  /* Override any inline styles */
+    left: 50% !important;  /* Center horizontally */
+    transform: translateX(-50%) !important;  /* Center horizontally */
+    z-index: 9999;
+}
+
+.success-message {
+    background-color: #00CF76;
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    animation: slideIn 0.3s ease-out;
+    margin-bottom: 10px;
+    min-width: 300px;
+}
+
+.success-message.error {
+    background-color: #ff4444;
+}
+
+@keyframes slideIn {
+    from { 
+        transform: translate(-50%, -100%); 
+        opacity: 0; 
+    }
+    to { 
+        transform: translate(-50%, 0); 
+        opacity: 1; 
+    }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
 }

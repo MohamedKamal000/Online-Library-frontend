@@ -1,70 +1,53 @@
-function searchBooks(query, category) {
-    if (!query) return dummyBooks;
-    
+function searchBooks(query, category, books) {
+    if (!query) return books;
+
     query = query.toLowerCase().trim();
-    return dummyBooks.filter(book => {
-        switch(category) {
+    return books.filter(book => {
+        switch (category) {
             case 'title':
-                return book.title.toLowerCase().includes(query);
+                return book.title && book.title.toLowerCase().includes(query);
             case 'author':
-                return book.author.toLowerCase().includes(query);
+                return book.author && book.author.toLowerCase().includes(query);
             case 'category':
-                return book.category.toLowerCase().includes(query);
+                return book.category && book.category.toLowerCase().includes(query);
             default:
-                return book.title.toLowerCase().includes(query) || 
-                       book.author.toLowerCase().includes(query) || 
-                       book.category.toLowerCase().includes(query);
+                return false;
         }
     });
 }
 
-function handleSearch(query, category) {
-    const isViewBooksPage = window.location.pathname.includes('ViewBooks.html');
-    const isBorrowedBooksPage = window.location.pathname.includes('BorrowedBooksList.html');
-    
-    if (isViewBooksPage) {
-        const filteredBooks = searchBooks(query, category);
-        if (filteredBooks.length === 0) {
-            const container = document.querySelector('.CardsContainer');
-            container.innerHTML = '<div class="no-results">No books found matching your search criteria</div>';
-        } else {
-            totalBooks = filteredBooks.length;
-            currentPage = 1; 
-            displayBooks(filteredBooks);
-        }
-    } else if (isBorrowedBooksPage) {
-        searchBorrowedBooks(query, category);
-    } else {
-        const searchParams = new URLSearchParams();
-        if (query) searchParams.set('query', query);
-        if (category) searchParams.set('category', category);
-        // EDIT THIS LATER
-        // window.location.href = `pages/ViewBooks.html?${searchParams.toString()}`;
-    }
-}
+document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.getElementById('search');
+    const searchCategory = document.querySelector('.search-category');
 
-const searchInput = document.getElementById('search');
-const searchCategory = document.querySelector('.search-category');
+    if (!searchInput || !searchCategory) return;
 
-searchInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') {
+    function updateSearchResults(books, displayFunction, updatePagination) {
         const query = searchInput.value;
         const category = searchCategory.value;
-        handleSearch(query, category);
-    }
-});
+        const filteredBooks = searchBooks(query, category, books);
 
-document.addEventListener('DOMContentLoaded', () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const query = urlParams.get('query');
-    const category = urlParams.get('category') || 'title';
-    
-    if (query) {
-        searchInput.value = query;
-        searchCategory.value = category;
-        handleSearch(query, category);
-    } else {
-        totalBooks = dummyBooks.length;
-        displayBooks(dummyBooks); 
+        if (typeof totalBooks !== 'undefined') {
+            totalBooks = filteredBooks.length;
+        }
+        currentPage = 1;
+        displayFunction(filteredBooks);
+        updatePagination();
     }
+
+    searchInput.addEventListener('input', () => {
+        if (typeof allBooks !== 'undefined') {
+            updateSearchResults(allBooks, displayBooks, updatePaginationButtons);
+        } else if (typeof BORROWED_BOOKS_DATA !== 'undefined') {
+            updateSearchResults(BORROWED_BOOKS_DATA, LoadCardsWithPage, updatePaginationButtons);
+        }
+    });
+
+    searchCategory.addEventListener('change', () => {
+        if (typeof allBooks !== 'undefined') {
+            updateSearchResults(allBooks, displayBooks, updatePaginationButtons);
+        } else if (typeof BORROWED_BOOKS_DATA !== 'undefined') {
+            updateSearchResults(BORROWED_BOOKS_DATA, LoadCardsWithPage, updatePaginationButtons);
+        }
+    });
 });

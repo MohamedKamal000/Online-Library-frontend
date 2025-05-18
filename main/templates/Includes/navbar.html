@@ -1,10 +1,11 @@
+{% load static %}
 {% csrf_token %}
 <nav class="navbar">
-    <div class="left-section">
+    <div class="navbar-start">
         <a href="{% url 'index' %}" class="navbar-brand">LMS</a>
         <div class="search-container">
             <i class="fas fa-search search-icon"></i>
-            <input type="search" id="search" class="search-bar" placeholder="Search books...">
+            <input type="text" id="search" class="search-bar" placeholder="Search...">
             <select class="search-category">
                 <option value="title">Title</option>
                 <option value="author">Author</option>
@@ -22,3 +23,4 @@
         {% endif %}
     </div>
 </nav>
+<script src="{% static 'js/search.js' %}"></script>

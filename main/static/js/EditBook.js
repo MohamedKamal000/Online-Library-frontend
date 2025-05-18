@@ -37,34 +37,59 @@ async function SaveBookNewData(event) {
     event.preventDefault();
     let result = TryParseBookData(inputElements);
     if (result === undefined) {
-        console.log("Can't Pares Data check inputs");
-        resultMessage.style.backgroundColor = COLORS["Fail"];
-        resultMessageText.textContent = "Fail :(";
+        showNotification("Failed to edit book. Please check your inputs.", false);
+        return;
     }
-
-    resultMessage.style.top = "100px";
-
-    setTimeout(() => {
-        resultMessage.style.top = "-100px";
-    },5000);
 
     result.image = BookImage;
     const params = new URLSearchParams(window.location.search);
     const bookId = params.get("id");
     result.id = parseInt(bookId);
-    saveButton.disabled = true; // to prevent spamming api calls
-    const response = await MakeUpdateBookCall(result);
-    const data = await response.json();
-    saveButton.disabled = false;
-    console.log(data.success)
-    if (!response.ok && data.success){
-        resultMessage.style.backgroundColor = COLORS["Fail"];
-        resultMessageText.textContent = "Fail :(";
+    saveButton.disabled = true;
+    
+    try {
+        const response = await MakeUpdateBookCall(result);
+        const data = await response.json();
+        
+        if (response.ok && data.success) {
+            const bookTitle = document.querySelector('[name="title"]').value;
+            showNotification(`Successfully updated "${bookTitle}"`, true);
+        } else {
+            showNotification("Failed to edit book. Please try again.", false);
+        }
+    } catch (error) {
+        showNotification("Error occurred while editing book.", false);
+        console.error('Error:', error);
+    } finally {
+        saveButton.disabled = false;
     }
-    else{
-        resultMessage.style.backgroundColor = COLORS["Success"];
-        resultMessageText.textContent = "Success !";
-    }
+}
+
+function showNotification(message, isSuccess) {
+    const notificationWrapper = document.createElement('div');
+    notificationWrapper.className = 'notification-wrapper';
+    notificationWrapper.style.position = 'fixed';
+    notificationWrapper.style.top = '80px';
+    notificationWrapper.style.right = '20px';
+    notificationWrapper.style.zIndex = '9999';
+    
+    const notification = document.createElement('div');
+    notification.className = `success-message ${!isSuccess ? 'error' : ''}`;
+    notification.textContent = message;
+    notification.style.backgroundColor = isSuccess ? '#00CF76' : '#ff4444';
+    notification.style.color = 'white';
+    notification.style.padding = '1rem 2rem';
+    notification.style.borderRadius = '8px';
+    notification.style.boxShadow = '0 2px 10px rgba(0,0,0,0.2)';
+    notification.style.animation = 'slideIn 0.3s ease-out';
+    
+    notificationWrapper.appendChild(notification);
+    document.body.appendChild(notificationWrapper);
+    
+    setTimeout(() => {
+        notificationWrapper.style.animation = 'fadeOut 0.3s ease-out';
+        setTimeout(() => notificationWrapper.remove(), 300);
+    }, 2500);
 }
 
 async function LoadOldBookData(){

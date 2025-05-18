@@ -15,5 +15,7 @@ urlpatterns = [
     path('view-book-details-admin/delete-book/<int:book_id>/', views.deleteBook, name='delete-book'),
     path('borrow-book/<int:book_id>/', views.borrow_book, name='borrow_book'),
     path('return-book/<int:book_id>/', views.return_book, name='return_book'),
-    path('CheckBookBorrowStatus/<int:book_id>/', views.CheckBookStatus,name='CheckBookBorrowStatus')
+    path('CheckBookBorrowStatus/<int:book_id>/', views.CheckBookStatus,name='CheckBookBorrowStatus'),
+    path('fetch-books/', views.fetch_books, name='fetch_books')
 ]
+handler404 = 'main.views.handler404'

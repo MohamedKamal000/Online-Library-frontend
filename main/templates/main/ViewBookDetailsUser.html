@@ -1,77 +1,149 @@
 {% load static %}
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <title>View book details for User</title>
-    <link rel="stylesheet" href="{% static 'css/ViewBookDetails.css' %}">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
-    <link rel="stylesheet" href="{% static 'css/footer.css' %}">
-    <link rel="stylesheet" href="{% static 'css/LeftNavBorder.css' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-</head>
-<body class="body-elements">
+    <link rel="stylesheet" href="{% static 'css/ViewBookDetails.css' %}" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/footer.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/LeftNavBorder.css' %}" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+  </head>
+  <body class="body-elements">
     {% include 'Includes/navbar_withoutSearch.html' %}
     <main class="main-content">
-        <div class="left-NavBorder">
-            <div class="left-NavBorder_NavigationIcons">
-                <div class="NavigationButtonsColumn">
-                    <div class="NavigationButton">
-                        <a href="{% url 'view_books' %}">
-                            <button class="ViewBooksButton"></button>
-                        </a>
-                    </div>
-                    <p class="NavigationButtonText">View Books</p>
-                    <div class="NavigationButton">
-                        <a href="{% url 'borrowed_books_list' %}">
-                            <button class="BorrowedBooksButton"></button>
-                        </a>
-                    </div>
-                    <p class="NavigationButtonText">Borrowed Books</p>
-                </div>
+      <div class="left-NavBorder">
+        <div class="left-NavBorder_NavigationIcons">
+          <div class="NavigationButtonsColumn">
+            <div class="NavigationButton">
+              <a href="{% url 'view_books' %}">
+                <button class="ViewBooksButton"></button>
+              </a>
             </div>
+            <p class="NavigationButtonText">View Books</p>
+            <div class="NavigationButton">
+              <a href="{% url 'borrowed_books_list' %}">
+                <button class="BorrowedBooksButton"></button>
+              </a>
+            </div>
+            <p class="NavigationButtonText">Borrowed Books</p>
+          </div>
         </div>
-        <div class="content-wrapper">
-            <div class="details-section">
-                <div class="body-content">
-                    <img src="{% static 'assets/img/icons/BookID.png' %}" alt="Book ID" class="body-images">
-                    <p class="body-text" id="BookId">{{ book.id }}</p>
-                </div>
-
-                <div class="body-content">
-                    <img src="{% static 'assets/img/icons/Author.png' %}" alt="Author" class="body-images">
-                    <p class="body-text" id="BookAuthor">{{ book.author }}</p>
-                </div>
-
-                <div class="body-content">
-                    <img src="{% static 'assets/img/icons/Category.png' %}" alt="Category" class="body-images">
-                    <p class="body-text" id="BookCategory">{{ book.category }}</p>
-                </div>
-
-                <div class="buttonDirection">
-                    <button class="button" id="BorrowButton" style="background-color: #00CF76;">
-                        <img src="{% static 'assets/img/icons/AddNewBook.png' %}" alt="Edit" class="button-icon">
-                        Borrow
-                    </button>
-                </div>
+      </div>
+      <div class="content-wrapper">
+        <div class="details-section">
+          <div class="body-content">
+            <img
+              src="{% static 'assets/img/icons/BookID.png' %}"
+              alt="Book ID"
+              class="body-images"
+            />
+            <div class="info-container">
+              <span class="info-header">Book ID</span>
+              <p class="body-text" id="BookId">{{ book.id }}</p>
             </div>
+          </div>
 
-            <div class="image-section">
-                <div class="right-details">
-                    <div class="right-image">
-                        <img src="{{ book.imageUrl }}" alt="Book" style="border-radius: 10%;">
-                    </div>
-                    <p class="text" id="BookTitle">{{ book.title }}</p>
-                    <p class="book-description" id="BookDescription">{{ book.description }}</p>
-                </div>
+          <div class="body-content">
+            <img
+              src="{% static 'assets/img/icons/Author.png' %}"
+              alt="Author"
+              class="body-images"
+            />
+            <div class="info-container">
+              <span class="info-header">Author</span>
+              <p class="body-text" id="BookAuthor">{{ book.author }}</p>
             </div>
+          </div>
+
+          <div class="body-content">
+            <img
+              src="{% static 'assets/img/icons/Category.png' %}"
+              alt="Category"
+              class="body-images"
+            />
+            <div class="info-container">
+              <span class="info-header">Category</span>
+              <p class="body-text" id="BookCategory">{{ book.category }}</p>
+            </div>
+          </div>
+
+          <div class="buttonDirection">
+            <button
+              class="button"
+              id="BorrowButton"
+              style="background-color: #00cf76"
+            >
+              <img
+                src="{% static 'assets/img/icons/AddNewBook.png' %}"
+                alt="Edit"
+                class="button-icon"
+              />
+              Borrow
+            </button>
+          </div>
         </div>
+
+        <div class="image-section">
+          <div class="right-details">
+            <div class="right-image">
+              <img
+                src="{{ book.imageUrl }}"
+                alt="Book"
+                style="border-radius: 10%"
+              />
+            </div>
+            <p class="text" id="BookTitle">{{ book.title }}</p>
+            <p class="book-description" id="BookDescription">
+              {{ book.description }}
+            </p>
+            <button
+              class="read-more-btn"
+              id="readMoreBtn"
+              onclick="toggleDescription()"
+            >
+              Read More
+            </button>
+          </div>
+        </div>
+      </div>
     </main>
     {% include 'Includes/footer.html' %}
     <script src="{% static 'js/main.js' %}"></script>
-    <script src="{% static 'js/bookDetails.js' %}"></script>
     <script src="{% static 'js/BookDetailsUser.js' %}"></script>
-</body>
+    <script>
+      function toggleDescription() {
+        const description = document.getElementById("BookDescription");
+        const button = document.getElementById("readMoreBtn");
+        if (description.classList.contains("description-expanded")) {
+          description.classList.remove("description-expanded");
+          button.textContent = "Read More";
+        } else {
+          description.classList.add("description-expanded");
+          button.textContent = "Show Less";
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const description = document.getElementById("BookDescription");
+        const button = document.getElementById("readMoreBtn");
+        if (description && button) {
+          const isOverflowing =
+            description.scrollHeight > description.offsetHeight + 2;
+          if (!isOverflowing) {
+            button.style.display = "none";
+          }
+        }
+      });
+    </script>
+  </body>
 </html>

@@ -60,8 +60,13 @@ button:hover{
 }
 
 .bookCard{
+    width: 250px;
+    height: 400px;
     background-color: #393E46;
-    border-radius: 15px;
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
     transition: transform 0.2s ease;
 }
 
@@ -116,7 +121,27 @@ button:hover{
 }
 
 .bookInfo{
+    padding: 1rem;
+    overflow: hidden;
     margin-left: 1rem;
+}
+
+.bookInfo h3 {
+    font-size: 1.2rem;
+    color: #00ADB5;
+    margin-bottom: 0.5rem;
+}
+
+.bookInfo p {
+    color: #EEEEEE;
+    font-size: 0.9rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 4.2em;
+    line-height: 1.4;
 }
 
 .no-results {
