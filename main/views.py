@@ -116,6 +116,7 @@ def add_new_book(request):
         try:
             formResult = AddBookForm(request.POST, request.FILES)
             if not formResult.is_valid():
+                print("Form errors:", formResult.errors)  # Debug form errors
                 return JsonResponse({'success': False}, status=400)
 
             book = formResult.save()

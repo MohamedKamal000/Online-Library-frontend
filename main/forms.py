@@ -76,6 +76,7 @@ class AddBookForm(forms.ModelForm):
         fields = ('title', 'description', 'author', 'category', 'image')
 
 
+
 class EditBookForm(forms.ModelForm):
     title = forms.CharField(
         required=False,
