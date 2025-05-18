@@ -2,17 +2,34 @@ function searchBooks(query, category, books) {
     if (!query) return books;
 
     query = query.toLowerCase().trim();
+    console.log('Searching with:', {
+        query,
+        category,
+        booksArray: books
+    });
+
     return books.filter(book => {
+        let match;
         switch (category) {
             case 'title':
-                return book.title && book.title.toLowerCase().includes(query);
+                match = ((book.title && book.title.toLowerCase().includes(query)) ||
+                        (book.name && book.name.toLowerCase().includes(query)));
+                break;
             case 'author':
-                return book.author && book.author.toLowerCase().includes(query);
+                match = book.author && book.author.toLowerCase().includes(query);
+                break;
             case 'category':
-                return book.category && book.category.toLowerCase().includes(query);
+                match = book.category && book.category.toLowerCase().includes(query);
+                break;
             default:
-                return false;
+                match = false;
         }
+        console.log('Book match:', {
+            book: book.title || book.name,
+            category,
+            match
+        });
+        return match;
     });
 }
 
@@ -25,14 +42,39 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateSearchResults(books, displayFunction, updatePagination) {
         const query = searchInput.value;
         const category = searchCategory.value;
-        const filteredBooks = searchBooks(query, category, books);
+        
+        console.log('Search Input:', {
+            query,
+            category,
+            totalBooks: books.length
+        });
 
-        if (typeof totalBooks !== 'undefined') {
-            totalBooks = filteredBooks.length;
+        const filteredBooks = searchBooks(query, category, books);
+        console.log('Filtered Results:', {
+            filteredCount: filteredBooks.length,
+            results: filteredBooks
+        });
+
+        if (typeof BORROWED_BOOKS_DATA !== 'undefined') {
+            const cardsList = document.getElementsByClassName("BB_Card_List")[0];
+            cardsList.innerHTML = '';  
+            
+            if (filteredBooks.length === 0) {
+                cardsList.innerHTML = '<div class="no-results">No results found</div>';
+            } else {
+                LoadCardsWithPage(0, filteredBooks);
+            }
+        } else {
+            if (typeof totalBooks !== 'undefined') {
+                totalBooks = filteredBooks.length;
+            }
+            currentPage = 1;
+            displayFunction(filteredBooks);
         }
-        currentPage = 1;
-        displayFunction(filteredBooks);
-        updatePagination();
+        
+        if (typeof updatePagination === 'function') {
+            updatePagination();
+        }
     }
 
     searchInput.addEventListener('input', () => {

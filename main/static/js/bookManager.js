@@ -32,6 +32,15 @@ function getLoggedInUserRole() {
 
 function displayBooks(books) {
     const container = document.querySelector('.CardsContainer');
+    
+    if (!books || books.length === 0) {
+        container.innerHTML = `
+            <div style="text-align: center; padding: 2rem; color: #EEEEEE; font-size: 1.2rem;">
+                No books found matching your search
+            </div>`;
+        return;
+    }
+
     const start = (currentPage - 1) * booksPerPage;
     const end = start + booksPerPage;
     const booksToShow = books.slice(start, end);
