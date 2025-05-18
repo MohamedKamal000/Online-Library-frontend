@@ -133,6 +133,7 @@ body{
     gap: 10px;
     background-color: #ff4444;
     color: white;
+    width: 10rem;
     border: none;
     padding: 8px 16px;
     border-radius: 5px;

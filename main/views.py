@@ -134,7 +134,6 @@ def deleteBook(request, book_id):
         return JsonResponse({'success': False, 'error': 'Not authenticated'}, status=401)
     if not CheckUserIsAdmin(request.user):
         return JsonResponse({'success': False, 'error': 'Not authorized'}, status=403)
-    
     if request.method == "DELETE":
         try:
             book = Book.objects.get(id=book_id)  # Fix: Changed from book_id to id
@@ -144,15 +143,13 @@ def deleteBook(request, book_id):
             return JsonResponse({'success': False, 'error': 'Book not found'}, status=404)
         except Exception as e:
             return JsonResponse({'success': False, 'error': str(e)}, status=500)
-    
+
     return JsonResponse({'success': False, 'error': 'Invalid method'}, status=405)
 
 
 def view_book_details_user(request):
     if request.method == "GET":
         book_id = request.GET.get('id')
-        if not book_id:
-            return redirect('view_books')
         try:
             book = Book.objects.get(id=book_id)
             if book.image:
@@ -172,6 +169,8 @@ def view_book_details_user(request):
 
             context = {'book': bookData}
             return render(request, 'main/ViewBookDetailsUser.html', context)
+        except Book.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Book not found'}, status=404)
         except Exception as e:
             return redirect('view_books')
     return render(request, 'main/ViewBookDetailsUser.html')
@@ -184,8 +183,6 @@ def view_book_details_admin(request):
         return redirect('view_books')
     if request.method == "GET":
         book_id = request.GET.get('id')
-        if not book_id:
-            return redirect('view_books')
         try:
             book = Book.objects.get(id=book_id)
             if book.image:
@@ -205,6 +202,8 @@ def view_book_details_admin(request):
 
             context = {'book': bookData}
             return render(request, 'main/ViewBookDetailsAdmin.html', context)
+        except Book.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Book not found'}, status=404)
         except Exception as e:
             return redirect('view_books')
     return render(request, 'main/ViewBookDetailsAdmin.html')
@@ -218,9 +217,6 @@ def edit_book(request):
     if request.method == "POST":
         try:
             bookId = request.POST.get("id")
-            if not Book.objects.filter(pk=bookId).exists():
-                return JsonResponse({'success': False}, status=404)
-
             book = Book.objects.get(pk=bookId)
             form = EditBookForm(request.POST, request.FILES, instance=book)
 
@@ -234,23 +230,22 @@ def edit_book(request):
 
             book.save()
             return JsonResponse({'success': True}, status=200)
+        except Book.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Book not found'}, status=404)
         except Exception as e:
-            print("Error:", e)
             return JsonResponse({'success': False}, status=500)
 
-    bookId = request.GET.get("id")
-    if not Book.objects.filter(pk=bookId).exists():
-        return redirect('view_books')
-
-    book = Book.objects.get(pk=bookId)
-    form = EditBookForm(instance=book)
-    image_url = book.image.url if book.image else '/static/img/testImage.jpeg'
-    context = {'form': form, 'image_url': image_url, 'book': book}
-    return render(request, 'main/EditBook.html', context)
-
-
-def CheckUserIsAdmin(user):
-    return User.objects.get(pk=user.pk).is_admin
+    try:
+        bookId = request.GET.get("id")
+        book = Book.objects.get(pk=bookId)
+        form = EditBookForm(instance=book)
+        image_url = book.image.url if book.image else '/static/img/testImage.jpeg'
+        context = {'form': form, 'image_url': image_url, 'book': book}
+        return render(request, 'main/EditBook.html', context)
+    except Book.DoesNotExist:
+        return JsonResponse({'success': False, 'error': 'Book not found'}, status=404)
+    except Exception as e:
+        return JsonResponse({'success': False}, status=500)
 
 
 @require_POST
@@ -259,7 +254,6 @@ def borrow_book(request, book_id):
         return redirect('login')
     try:
         book = Book.objects.get(pk=book_id)
-
         if not book.is_available:
             return JsonResponse({'success': False, 'error': 'Book is already borrowed'}, status=400)
 
@@ -305,12 +299,14 @@ def CheckBookStatus(request, book_id):
         return JsonResponse({'success': False, 'error': 'Book Does Not Exist'}, status=404)
     except Exception as e:
         return JsonResponse({'success': False, 'error': str(e)}, status=500)
-    
+
+
 def handler404(request, exception=None):
     context = {}
     response = render(request, 'main/404.html', context)
     response.status_code = 404
     return response
+
 
 def fetch_books(request):
     try:
@@ -330,3 +326,7 @@ def fetch_books(request):
         return JsonResponse({'success': True, 'books': books_data})
     except Exception as e:
         return JsonResponse({'success': False, 'error': str(e)}, status=500)
+
+
+def CheckUserIsAdmin(user):
+    return User.objects.get(pk=user.pk).is_admin
